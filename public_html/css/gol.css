@@ -18,8 +18,8 @@
 .gol-cell {
     margin: 1px;
     border: 1px solid #424242;
-    height: 4px;
-    width: 4px;
+    height: 12px;
+    width: 12px;
     float: left;
     background: white;
 }

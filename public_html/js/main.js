@@ -269,8 +269,8 @@ var GolPlayground = (function () {
 	
 	this.parent = $(where);
 	
-	this.colNo = col || 180;
-	this.rowNo = row || 90;
+	this.colNo = col || 90;
+	this.rowNo = row || 50;
 	
 	this.matrix = [ ];
     };
@@ -289,9 +289,14 @@ var GolPlayground = (function () {
 		cell.setElement( cellEl );
 		this.matrix[r][c] = cell;
 		this.parent.append(cellEl);
+		
+		// c % 10 === 0 ? console.log('created col %o', c) : null;
 	    }
-	    console.log('created row %o', r);
+	    this.parent.append($('<div style="clear:left;height:0;width:0">'));
+	    // console.log('created row %o', r);
 	}
+	
+	this.parent.append($('<br clear="all" />'));
     };
     
     return GolPlayground;
