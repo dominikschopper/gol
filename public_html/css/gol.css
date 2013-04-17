@@ -1,4 +1,4 @@
-/* 
+/*
     Document   : gol
     Created on : 16.04.2013, 23:58:00
     Author     : dominikschopper
@@ -10,7 +10,6 @@
     clear: both;
     height: auto;
     min-height: 100px;
-    width: 1280px;
     border: 1px solid green;
     background: #FAFAFA;
 }
@@ -18,8 +17,8 @@
 .gol-cell {
     margin: 1px;
     border: 1px solid #424242;
-    height: 12px;
-    width: 12px;
+    height: 8px;
+    width: 8px;
     float: left;
     background: white;
 }
