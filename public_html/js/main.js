@@ -8,55 +8,65 @@ var golConf = {
 	    // col
 	    7: 'spaceship'
 	},
+	23: {
+	    // col
+	    45: 'spaceship'
+	},
 	13: {
 	    23: 'spaceship2'
+	},
+	7: {
+	    19: 'spaceship2'
 	},
 	6: {
 	    33: 'blinker2'
 	},
-	57: {
+	34: {
+	    22: 'caterer'
+	},
+	59: {
 	    58: 'caterer'
 	},
-	67: {
-	    47: 'spaceship'
+	58: {
+	    12: 'spaceship'
 	}
     },
     figures: {
 	spaceship: {
 	    states: [
-		[ 1, 1, 1 ],
-		[ 1, 0, 0 ],
-		[ 0, 1, 0 ]
+		[1, 1, 1],
+		[1, 0, 0],
+		[0, 1, 0]
 	    ]
 	},
-	blinker1: {   // blinker
+	blinker1: {// blinker
 	    states: [
-		[ 1, 1, 1 ]
+		[1, 1, 1]
 	    ]
 	},
-	blinker2: {   // blinker
+	blinker2: {// blinker
 	    states: [
-		[ 1 ],
-		[ 1 ],
-		[ 1 ]
+		[1],
+		[1],
+		[1]
 	    ]
 	},
 	spaceship2: {
 	    states: [
-		[ 0, 1, 0, 0, 1 ],
-		[ 1, 0, 0, 0, 0 ],
-		[ 1, 0, 0, 0, 1 ],
-		[ 1, 1, 1, 1, 0 ]
+		[0, 1, 0, 0, 1],
+		[1, 0, 0, 0, 0],
+		[1, 0, 0, 0, 1],
+		[1, 1, 1, 1, 0]
 	    ]
 	},
-	caterer: {   // caterer
+	caterer: {// caterer
 	    states: [
-		[ 0, 0, 1, 0, 0, 0, 0, 0 ],
-		[ 1, 0, 0, 0, 1, 1, 1, 1 ],
-		[ 1, 0, 0, 0, 1, 1, 0, 0 ],
-		[ 1, 0, 0, 0, 0, 0, 0, 0 ],
-		[ 0, 0, 0, 1, 0, 0, 0, 0 ],
-		[ 0, 1, 1, 0, 0, 0, 0, 0 ]
+		[0, 0, 1, 0, 0, 0, 0, 0],
+		[1, 0, 0, 0, 1, 1, 1, 1],
+		[1, 0, 0, 0, 1, 1, 0, 0],
+		[1, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 1, 0, 0, 0, 0],
+		[0, 1, 1, 0, 0, 0, 0, 0]
 	    ]
 	}
     }
@@ -73,21 +83,37 @@ var golConf = {
  * @property {Boolean} state
  * @property {Array} neighbours
  */
-var GolCell = (function () {
-    var GolCell = function () {
+var GolCell = (function() {
+    var GolCell = function() {
 
 	this.element = null;
 
 	this.state = false;
 	this.nextState = false;
 
-	this.neighbours = [ ];
+	this.neighbours = [];
 	//console.log('creating cell');
 	return this;
     };
 
-    GolCell.prototype.setElement = function (e) {
-	this.element = e;
+    GolCell.prototype.setElement = function(el) {
+
+	this.element = el;
+	var me = this;
+
+	this.element.click(function (ev) {
+	    
+	    ev.stopPropagation();
+	    console.log('before', me.getState(), me.element);
+
+	    if (me.getState()) {
+		me.setState(false);
+	    }  else {
+		me.setState(true);
+	    }
+	    
+	    console.log('after ', me.getState(), me.element);
+	});
 	return this;
     };
 
@@ -96,18 +122,26 @@ var GolCell = (function () {
      * @param {Boolean} state
      * @returns {GolCell}
      */
-    GolCell.prototype.setNextState = function (state) {
+    GolCell.prototype.setNextState = function(state) {
 	this.nextState = (state ? true : false);
 	return this;
     };
 
-    GolCell.prototype.setState = function (state) {
-		this.state = (state ? true : false);
-		return this;
+    GolCell.prototype.setState = function(state) {
+
+	this.state = (state ? true : false);
+
+	if (this.getState()) {
+	    this.element.addClass('active');
+	}  else {
+	    this.element.removeClass('active');
+	}
+
+	return this;
     };
 
-    GolCell.prototype.activateState = function () {
-	this.state = this.nextState;
+    GolCell.prototype.activateState = function() {
+	this.setState(this.nextState);
 	this.nextState = false;
 	return this;
     };
@@ -116,7 +150,7 @@ var GolCell = (function () {
      *
      * @returns {Boolean}
      */
-    GolCell.prototype.getState = function () {
+    GolCell.prototype.getState = function() {
 	return this.state;
     };
 
@@ -125,7 +159,7 @@ var GolCell = (function () {
      * @param {type} n
      * @returns {GolCell}
      */
-    GolCell.prototype.addNeighbour = function (n) {
+    GolCell.prototype.addNeighbour = function(n) {
 	this.neighbours.push(n);
 	return this;
     };
@@ -135,10 +169,10 @@ var GolCell = (function () {
      * @param {type} n
      * @returns {GolCell}
      */
-    GolCell.prototype.removeNeighbour = function (n) {
+    GolCell.prototype.removeNeighbour = function(n) {
 
-	var neighbours = [ ],
-	    i = 0;
+	var neighbours = [],
+		i = 0;
 
 	for (i in this.neighbours) {
 	    if (this.neighbours.hasOwnProperty(i) && this.neighbours[i] !== n) {
@@ -155,7 +189,7 @@ var GolCell = (function () {
      *
      * @returns {Number}
      */
-    GolCell.prototype.getActiveNeighbourCount = function () {
+    GolCell.prototype.getActiveNeighbourCount = function() {
 
 	var count = 0;
 
@@ -180,11 +214,11 @@ var GolCell = (function () {
  * @property {Boolean} state
  * @property {Array} neighbours
  */
-var FwCell = (function () {
-    var FwCell = function () {
+var FwCell = (function() {
+    var FwCell = function() {
 
 	this.state = false;
-	this.neighbours = [ ];
+	this.neighbours = [];
 
 	return this;
     };
@@ -194,7 +228,7 @@ var FwCell = (function () {
      * @param {Boolean} state
      * @returns {FwCell}
      */
-    FwCell.prototype.setState = function (state) {
+    FwCell.prototype.setState = function(state) {
 	this.state = (state ? true : false);
 	return this;
     };
@@ -203,7 +237,7 @@ var FwCell = (function () {
      *
      * @returns {Boolean}
      */
-    FwCell.prototype.getState = function () {
+    FwCell.prototype.getState = function() {
 	return this.state;
     };
 
@@ -212,7 +246,7 @@ var FwCell = (function () {
      * @param {type} n
      * @returns {FwCell}
      */
-    FwCell.prototype.addNeighbour = function (n) {
+    FwCell.prototype.addNeighbour = function(n) {
 	this.neighbours.push(n);
 	return this;
     };
@@ -222,10 +256,10 @@ var FwCell = (function () {
      * @param {type} n
      * @returns {FwCell}
      */
-    FwCell.prototype.removeNeighbour = function (n) {
+    FwCell.prototype.removeNeighbour = function(n) {
 
-	var neighbours = [ ],
-	    i = 0;
+	var neighbours = [],
+		i = 0;
 
 	for (i in this.neighbours) {
 	    if (this.neighbours.hasOwnProperty(i) && this.neighbours[i] !== n) {
@@ -242,7 +276,7 @@ var FwCell = (function () {
      *
      * @returns {Number}
      */
-    FwCell.prototype.getActiveNeighbourCount = function () {
+    FwCell.prototype.getActiveNeighbourCount = function() {
 
 	var count = 0;
 
@@ -264,98 +298,229 @@ var FwCell = (function () {
  *
  * @type GolPlayground
  */
-var GolPlayground = (function () {
-	/**
-	 * @constructor
-	 * @param {Object} where
-	 * @param {Object} col
-	 * @param {Object} row
-	 * @returns GolPlayground
-	 */
-    var GolPlayground = function (where, col, row) {
+var GolPlayground = (function() {
+    /**
+     * @constructor
+     * @param {Object} where
+     * @param {Object} col
+     * @param {Object} row
+     * @returns GolPlayground
+     */
+    var GolPlayground = function(where, col, row) {
 
-		this.parent = $(where);
+	this.parent = $(where);
 
-		this.colNo = col || 90;
-		this.rowNo = row || 50;
+	this.colNo = col || 90;
+	this.rowNo = row || 50;
 
-		this.matrix = [ ];
+	this.matrix = [];
     };
 
-    GolPlayground.prototype.draw = function () {
-		var r = 0,
-		    c = 0,
-		    cell = null,
-		    cellEl = null;
+    GolPlayground.prototype.draw = function() {
+	var r = 0,
+	    c = 0,
+	    cell = null,
+	    cellEl = null,
+	    lastRow = 0,
+	    nextRow = 0,
+	    lastCol = 0,
+	    nextCol = 0;
 
-		for (r=0; r<this.rowNo; r+=1) {
+	for (r = 0; r < this.rowNo; r += 1) {
+	    this.matrix[r] = [];
+	    for (c = 0; c < this.colNo; c += 1) {
+		cell = new GolCell();
+		cellEl = $('<div class="gol-cell">');
+		cell.setElement(cellEl);
+		this.matrix[r][c] = cell;
+		this.parent.append(cellEl);
+	    }
+	}
 
-		    this.matrix[r] = [  ];
-		    for (c=0; c<this.colNo; c+=1) {
+	for (r = 0; r < this.rowNo; r += 1) {
+	    lastRow = (r - 1 < 0 ? this.rowNo - 1 : r - 1);
+	    nextRow = (r + 1 >= this.rowNo ? 0 : r + 1);
+	    for (c = 0; c < this.colNo; c += 1) {
+		lastCol = (c - 1 < 0 ? this.colNo - 1 : c - 1);
+		nextCol = (c + 1 >= this.colNo ? 0 : c + 1);
+		this.matrix[r][c].addNeighbour(this.matrix[lastRow][lastCol]);
+		this.matrix[r][c].addNeighbour(this.matrix[lastRow][c]);
+		this.matrix[r][c].addNeighbour(this.matrix[lastRow][nextCol]);
+		this.matrix[r][c].addNeighbour(this.matrix[r][lastCol]);
+		this.matrix[r][c].addNeighbour(this.matrix[r][nextCol]);
+		this.matrix[r][c].addNeighbour(this.matrix[nextRow][lastCol]);
+		this.matrix[r][c].addNeighbour(this.matrix[nextRow][c]);
+		this.matrix[r][c].addNeighbour(this.matrix[nextRow][nextCol]);
+	    }
+	}
+	var stepButton = $('<hr /><input type="submit" value="next step" />');
+	var playButton = $('<input type="submit" value="play" />');
+	var stopButton = $('<input type="submit" value="stop" />');
+	
+	this.parent.css({
+	    width: ((cellEl.outerWidth() + 2) * this.colNo),
+	    height: ((2 + cellEl.outerHeight()) * this.rowNo),
+	    padding: 0
+	});
 
-				cell = new GolCell();
-				cellEl = $('<div class="gol-cell">');
-				cell.setElement( cellEl );
-				this.matrix[r][c] = cell;
-				this.parent.append(cellEl);
+	me = this;
+	var timeout;
 
-				/* c % 10 === 0 ? console.log('created col %o', c) : null; */
-		    }
-//		    this.parent.append($('<div style="clear:left;height:0;width:0">'));
-		    // console.log('created row %o', r);
+	stepButton.click(function () {
+	    me.step(); 
+	});
 
-		}
+	playButton.click(function () {
+	    console.log('triggering play');
+	    timeout = window.setInterval(function () { me.step(); }, 333); 
+	});
 
-		this.parent.css({ width: ((cellEl.outerWidth()+2)*this.colNo), height: ((2+cellEl.outerHeight())*this.rowNo), padding: 0 });
+	stopButton.click(function () {
+	    timeout = clearInterval(timeout);
+	});
 
-//		this.parent.append($('<div style="clear:left;height:0;width:0">'));
-		//this.parent.append($('<br clear="all" />'));
-		return this;
+	this.parent.append(stepButton);
+	this.parent.append(playButton);
+	this.parent.append(stopButton);
+
+	return this;
     };
 
-    GolPlayground.prototype.preset = function (conf) {
+    GolPlayground.prototype.preset = function(conf) {
 
-    	var rowStart = 0,
-    		r = 0,
-    		row = 0,
-    		colStart =0,
-    		c = 0,
-    		col = 0,
-    		figure = '',
-    		status = false,
-    		field = [ ];
+	var rowStart = 0,
+		r = 0,
+		row = 0,
+		colStart = 0,
+		c = 0,
+		col = 0,
+		figure = '',
+		status = false,
+		field = [];
 
-		console.log('PRESET!', conf);
+	//console.log('matrix: %o // preset config %o', this.matrix, conf);
 
-		for (rowStart in conf.presets) {
-			if (conf.presets.hasOwnProperty(rowStart)) { // checking if the row exist and the js default check!
-				console.log('row', rowStart);
-				for (colStart in conf.presets[rowStart]) {
-					if (conf.presets[rowStart].hasOwnProperty(colStart)) {
-						console.log('col', colStart);
-						figure = conf.presets[rowStart][colStart];
-						field = conf.figures[figure].states
-						for (r in field) {
-							if (field.hasOwnProperty(r)) {
-								row = rowStart + r;
-								for (c in field[r]) {
-									col = colStart + c;
-									status = field[r][c];
-									if (this.matrix.hasOwnProperty(row) && this.matrix[row].hasOwnProperty(col)) {
-										console.log('setting row: %o / col %o to status: %o', row, col, status);
-										this.matrix[row][col].setState(status);
-									}
-								}
-							}
-						}
-					}
-				}
+	for (rowStart in conf.presets) { if (conf.presets.hasOwnProperty(rowStart)) { // checking if the row exist and the js default check!
+	
+	    rowStart = parseInt(rowStart, 10);
+
+	    for (colStart in conf.presets[rowStart]) { if (conf.presets[rowStart].hasOwnProperty(colStart)) {
+		
+		colStart = parseInt(colStart,10);
+		
+		figure = conf.presets[rowStart][colStart];
+		field = conf.figures[figure].states
+		//console.log('colStart: %o - rowStart: %o - figure: %o', colStart, rowStart, figure);
+
+		for (r in field) { if (field.hasOwnProperty(r)) {
+		    r = parseInt(r, 10);
+		    row = rowStart + r;
+		    for (c in field[r]) { if (field[r].hasOwnProperty(c)) {
+			c = parseInt(c, 10);
+			col = colStart + c;
+			status = field[r][c];
+			if (this.matrix.length > row && this.matrix[row].length > col ) {
+			    this.matrix[row][col] && this.matrix[row][col].setState(status);
+			    //console.log('setting row: %o / col %o  => obj(%o) to status: %o', row, col, this.matrix[row][col], status);
 			}
-		}
+		    } }
+		} }
+	    } }
+	} }
 
-		return this;
+	return this;
+    };
+    
+    GolPlayground.prototype.step = function() {
+	var s1 = Date.now();
+	var cell = {},
+	    actives = 0;
+	
+	for (r = 0; r < this.rowNo; r += 1) {
+	    for (c = 0; c < this.colNo; c += 1) {
+		cell = this.matrix[r][c];
+		actives = cell.getActiveNeighbourCount();
+		if (cell.getState()) {
+		    if (actives === 2 || actives === 3) {
+			cell.setNextState(true);
+		    }
+		} else {
+		    if (actives === 3) {
+			cell.setNextState(true);
+		    }
+		}
+	    }
+	}
+	
+	for (r = 0; r < this.rowNo; r += 1) {
+	    for (c = 0; c < this.colNo; c += 1) {
+		cell = this.matrix[r][c];
+		cell.activateState();
+	    }
+	}
+	console.log('_end_ step %o ms', Date.now() - s1);
+	return this;
     };
 
     return GolPlayground;
 
+}());
+
+
+var FwPlayground = (function () {
+    var FwPlayground = function () {
+	
+    };
+    
+    FwPlayground.prototype.draw = function() {
+	var r = 0,
+	    c = 0,
+	    cell = null,
+	    cellEl = null,
+	    lastRow = 0,
+	    nextRow = 0,
+	    lastCol = 0,
+	    nextCol = 0;
+
+	for (r = 0; r < this.rowNo; r += 1) {
+	    this.matrix[r] = [];
+	    for (c = 0; c < this.colNo; c += 1) {
+		cellEl = $('<div class="gol-cell">');
+		this.matrix[r][c] = cellEl;
+		this.parent.append(cellEl);
+	    }
+	}
+
+	var stepButton = $('<hr /><input type="submit" value="fw step" />');
+	var playButton = $('<input type="submit" value="fw play" />');
+	var stopButton = $('<input type="submit" value="fw stop" />');
+	
+	this.parent.css({
+	    width: ((cellEl.outerWidth() + 2) * this.colNo),
+	    height: ((2 + cellEl.outerHeight()) * this.rowNo),
+	    padding: 0
+	});
+
+	me = this;
+	var timeout;
+
+	stepButton.click(function () {
+	    me.step(); 
+	});
+
+	playButton.click(function () {
+	    console.log('triggering play');
+	    timeout = window.setInterval(function () { me.step(); }, 333); 
+	});
+
+	stopButton.click(function () {
+	    timeout = clearInterval(timeout);
+	});
+
+	this.parent.append(stepButton);
+	this.parent.append(playButton);
+	this.parent.append(stopButton);
+
+	return this;
+    };
 }());
