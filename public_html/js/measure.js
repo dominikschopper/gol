@@ -6,6 +6,9 @@ var msr = {
 	// data to show
 	_regData: {},
 	TYPE_OO_STEP: 'OO-steps',
+	TYPE_FW_STEP: 'FW-steps',
+	TYPE_OO_DRAW: 'FW-steps',
+	TYPE_FW_DRAW: 'FW-steps',
 	addNumber: function (num, type) {
 		num = parseInt(num,10);
 		if (!msr._regData.hasOwnProperty(type)) {
@@ -53,4 +56,8 @@ var msr = {
 	getOOAvg: function () {
 		return msr.getAvg(msr.TYPE_OO_STEP);
 	}
+};
+
+var writeMsrTo = {
+
 };

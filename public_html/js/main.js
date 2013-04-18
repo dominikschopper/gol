@@ -471,8 +471,14 @@ var GolPlayground = (function() {
 
 
 var FwPlayground = (function () {
-    var FwPlayground = function () {
+    var FwPlayground = function (where, col, row) {
+    	this.parent = $(where);
 
+		this.colNo = col || 90;
+		this.rowNo = row || 50;
+
+		this.matrix = [];
+		return this;
     };
 
     FwPlayground.prototype.draw = function() {
@@ -521,4 +527,6 @@ var FwPlayground = (function () {
 
 	return this;
     };
+
+    return FwPlayground;
 }());

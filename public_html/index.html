@@ -55,9 +55,13 @@
                         <button>Destroy OO Playground</button>
 						<div id="playground-1" class="gol-playground"></div>
 						<br clear="all" />
+						<br clear="all" />
+						<br clear="all" />
 						<h2>Example Implementation using &quot;Flyweight Pattern&quot;</h2>
                         <p></p>
 						<div id="playground-2" class="gol-playground"></div>
+						<br clear="all" />
+						<br clear="all" />
 						<br clear="all" />
                     </section>
                     <footer>
@@ -71,21 +75,45 @@
                     <p>Some info</p>
                     <div class="specs" id="oo-specs">
                     	<label>
-                    		cols: <input type="text" id="playground-build-time" class="short" value="" /> /
-                    		rows: <input type="text" id="playground-build-time" class="short" value="" />
+                    		cols: <input type="text" id="oo-playground-cols" class="short" value="" /> /
+                    		rows: <input type="text" id="oo-playground-rows" class="short" value="" />
                     	</label>
                     	<label>time to build playground
-                    		<input type="text" id="playground-build-time" class="timing" value="" />
+                    		<input type="text" id="oo-playground-build-time" class="timing" value="" />
                     	</label>
                     	
                     	<label>average step time
-                    		<input type="text" id="playground-avg-step-time" class="timing" value="" />
+                    		<input type="text" id="oo-playground-avg-step-time" class="timing" value="" />
                     	</label>
                     	<label>max step time
-                    		<input type="text" id="playground-max-step-time" class="timing" value="" />
+                    		<input type="text" id="oo-playground-max-step-time" class="timing" value="" />
                     	</label>
                     	<label>min step time
-                    		<input type="text" id="playground-min-step-time" class="timing" value="" />
+                    		<input type="text" id="oo-playground-min-step-time" class="timing" value="" />
+                    	</label>
+                    	<label>time to calculate each step<br />
+                    		<textarea id="oo-step-times" class="list"></textarea>
+                    	</label>
+                    </div>
+                    <h3>FW Pattern timing</h3>
+                    <p>Some info</p>
+                    <div class="specs" id="fw-specs">
+                    	<label>
+                    		cols: <input type="text" id="fw-playground-cols" class="short" value="" /> /
+                    		rows: <input type="text" id="fw-playground-rows" class="short" value="" />
+                    	</label>
+                    	<label>time to build playground
+                    		<input type="text" id="fw-playground-build-time" class="timing" value="" />
+                    	</label>
+                    	
+                    	<label>average step time
+                    		<input type="text" id="fw-playground-avg-step-time" class="timing" value="" />
+                    	</label>
+                    	<label>max step time
+                    		<input type="text" id="fw-playground-max-step-time" class="timing" value="" />
+                    	</label>
+                    	<label>min step time
+                    		<input type="text" id="fw-playground-min-step-time" class="timing" value="" />
                     	</label>
                     	<label>time to calculate each step<br />
                     		<textarea id="step-times" class="list"></textarea>
@@ -109,9 +137,13 @@
         <script type="text/javascript" src="js/main.js"></script>
 
 	<script type="text/javascript">
-	    var field = new GolPlayground('#playground-1', golConf.field.cols, golConf.field.rows);
-	    field.draw();
-	    field.preset(golConf);
+	    var ooField = new GolPlayground('#playground-1', golConf.field.cols, golConf.field.rows);
+	    ooField.draw();
+	    ooField.preset(golConf);
+	    
+	    var fwField = new FwPlayground('#playground-2', golConf.field.cols, golConf.field.rows);
+	    ooField.draw();
+	    ooField.preset(golConf);
 	</script>
     </body>
 </html>

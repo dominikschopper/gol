@@ -32,6 +32,9 @@
 
 .specs {
 	font-size: 0.75em;
+	padding: 0.25em;
+	background: silver;
+	color: black;
 }
 
 .specs input {
@@ -42,10 +45,6 @@
 
 .specs label {
 	display: block;
-	padding: 0.25em;
-
-	color: black;
-	background: silver;
 }
 
 .specs .timing {
