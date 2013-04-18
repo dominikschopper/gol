@@ -365,7 +365,7 @@ var GolPlayground = (function() {
 	});
 
 	me = this;
-	var timeout;
+	var timeout = null;
 
 	stepButton.click(function () {
 	    me.step();
@@ -377,7 +377,7 @@ var GolPlayground = (function() {
 	});
 
 	stopButton.click(function () {
-	    timeout = clearInterval(timeout);
+	    clearInterval(timeout);
 	});
 
 	this.parent.append(stepButton);
@@ -410,7 +410,7 @@ var GolPlayground = (function() {
 		colStart = parseInt(colStart,10);
 
 		figure = conf.presets[rowStart][colStart];
-		field = conf.figures[figure].states
+		field = conf.figures[figure].states;
 		//console.log('colStart: %o - rowStart: %o - figure: %o', colStart, rowStart, figure);
 
 		for (r in field) { if (field.hasOwnProperty(r)) {
@@ -435,7 +435,9 @@ var GolPlayground = (function() {
     GolPlayground.prototype.step = function() {
 	var s1 = Date.now();
 	var cell = {},
-	    actives = 0;
+	    actives = 0,
+	    r = 0,
+	    c = 0;
 
 	for (r = 0; r < this.rowNo; r += 1) {
 	    for (c = 0; c < this.colNo; c += 1) {
@@ -476,12 +478,7 @@ var FwPlayground = (function () {
     FwPlayground.prototype.draw = function() {
 	var r = 0,
 	    c = 0,
-	    cell = null,
-	    cellEl = null,
-	    lastRow = 0,
-	    nextRow = 0,
-	    lastCol = 0,
-	    nextCol = 0;
+	    cellEl = null;
 
 	for (r = 0; r < this.rowNo; r += 1) {
 	    this.matrix[r] = [];
@@ -503,7 +500,7 @@ var FwPlayground = (function () {
 	});
 
 	me = this;
-	var timeout;
+	var timeout = null;
 
 	stepButton.click(function () {
 	    me.step();
@@ -515,7 +512,7 @@ var FwPlayground = (function () {
 	});
 
 	stopButton.click(function () {
-	    timeout = clearInterval(timeout);
+	    clearInterval(timeout);
 	});
 
 	this.parent.append(stepButton);
