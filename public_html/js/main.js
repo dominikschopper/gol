@@ -102,8 +102,8 @@ var GolCell = (function () {
     };
 
     GolCell.prototype.setState = function (state) {
-		this.state = (state ? true : false);
-		return this;
+	this.state = (state ? true : false);
+	return this;
     };
 
     GolCell.prototype.activateState = function () {
@@ -341,10 +341,9 @@ var GolPlayground = (function () {
 								for (c in field[r]) {
 									col = colStart + c;
 									status = field[r][c];
-									if (this.matrix.hasOwnProperty(row) && this.matrix[row].hasOwnProperty(col)) {
-										console.log('setting row: %o / col %o to status: %o', row, col, status);
-										this.matrix[row][col].setState(status);
-									}
+									if (this.matrix.hasOwnProperty([)row] && this.matrix[row][col])
+									console.log('setting row: %o / col %o to status: %o', row, col, status);
+									this.matrix[row][col].setState(status);
 								}
 							}
 						}
