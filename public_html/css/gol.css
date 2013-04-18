@@ -26,3 +26,37 @@
 .active {
     background: lightgreen;
 }
+
+
+/* aside: form for specs! */
+
+.specs {
+	font-size: 0.75em;
+}
+
+.specs input {
+	color: black;
+	font-family: "Courier New", Courier, monospace;
+	font-size: 0.75em;
+}
+
+.specs label {
+	display: block;
+	padding: 0.25em;
+
+	color: black;
+	background: silver;
+}
+
+.specs .timing {
+	width: 50px;
+}
+
+.specs .short {
+	width: 3em;
+}
+
+.specs textarea {
+	width: 90%;
+	height: 5em;
+}

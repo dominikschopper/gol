@@ -43,22 +43,54 @@
                     </header>
                     <section>
                         <h2>Description</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec. Curabitur posuere enim eget turpis feugiat tempor. Etiam ullamcorper lorem dapibus velit suscipit ultrices. Proin in est sed erat facilisis pharetra.</p>
+                        <p></p>
                     </section>
                     <section>
-                        <h2>Example Implementation</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec. Curabitur posuere enim eget turpis feugiat tempor. Etiam ullamcorper lorem dapibus velit suscipit ultrices. Proin in est sed erat facilisis pharetra.</p>
-			<div id="playground-1" class="gol-playground"></div>
-			<br clear="all" />
+                        <h2>Example Implementation &quot;Classical OO&quot;</h2>
+                        <p>
+                        	This implementation uses one instantiated <code>GolCell</code> Object for each of the cells in the playground.
+                        	So with each col/row, the impact on the browser gets heavier (and mostly more sluggish!).
+                        	Try scrolling while something is done!
+                        </p>
+                        <button>Destroy OO Playground</button>
+						<div id="playground-1" class="gol-playground"></div>
+						<br clear="all" />
+						<h2>Example Implementation using &quot;Flyweight Pattern&quot;</h2>
+                        <p></p>
+						<div id="playground-2" class="gol-playground"></div>
+						<br clear="all" />
                     </section>
                     <footer>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec. Curabitur posuere enim eget turpis feugiat tempor.</p>
+                        <p>Comparing <strong>flyweight pattern performance</strong> to <strong>classical oo architecture</strong>!</p>
                     </footer>
                 </article>
 
                 <aside>
-                    <h3>aside</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sodales urna non odio egestas tempor. Nunc vel vehicula ante. Etiam bibendum iaculis libero, eget molestie nisl pharetra in. In semper consequat est, eu porta velit mollis nec. Curabitur posuere enim eget turpis feugiat tempor. Etiam ullamcorper lorem dapibus velit suscipit ultrices.</p>
+                    <h4>Youll find some timing specs here!!</h4>
+                    <h3>OO Pattern timing</h3>
+                    <p>Some info</p>
+                    <div class="specs" id="oo-specs">
+                    	<label>
+                    		cols: <input type="text" id="playground-build-time" class="short" value="" /> /
+                    		rows: <input type="text" id="playground-build-time" class="short" value="" />
+                    	</label>
+                    	<label>time to build playground
+                    		<input type="text" id="playground-build-time" class="timing" value="" />
+                    	</label>
+                    	
+                    	<label>average step time
+                    		<input type="text" id="playground-avg-step-time" class="timing" value="" />
+                    	</label>
+                    	<label>max step time
+                    		<input type="text" id="playground-max-step-time" class="timing" value="" />
+                    	</label>
+                    	<label>min step time
+                    		<input type="text" id="playground-min-step-time" class="timing" value="" />
+                    	</label>
+                    	<label>time to calculate each step<br />
+                    		<textarea id="step-times" class="list"></textarea>
+                    	</label>
+                    </div>
                 </aside>
 
             </div> <!-- #main -->
@@ -70,12 +102,14 @@
             </footer>
         </div>
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+        <script src="js/vendor/jquery-1.9.1.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.js"><\/script>')</script>
 
-        <script src="js/main.js"></script>
+        <script type="text/javascript" src="js/measure.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+
 	<script type="text/javascript">
-	    var field = new GolPlayground('#playground-1', 90, 220);
+	    var field = new GolPlayground('#playground-1', golConf.field.cols, golConf.field.rows);
 	    field.draw();
 	    field.preset(golConf);
 	</script>
