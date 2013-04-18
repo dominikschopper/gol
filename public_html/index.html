@@ -26,9 +26,7 @@
                 <h1 class="title">Conways game of life</h1>
                 <nav>
                     <ul>
-                        <li><a href="#">nav ul li a</a></li>
-                        <li><a href="#">nav ul li a</a></li>
-                        <li><a href="#">nav ul li a</a></li>
+                        <li><a href="">Reload Page</a></li>
                     </ul>
                 </nav>
             </header>
@@ -52,17 +50,25 @@
                         	So with each col/row, the impact on the browser gets heavier (and mostly more sluggish!).
                         	Try scrolling while something is done!
                         </p>
-                        <button>Destroy OO Playground</button>
-						<div id="playground-1" class="gol-playground"></div>
-						<br clear="all" />
-						<br clear="all" />
-						<br clear="all" />
+						<div>
+							<button id="create-oo">Create OO &quot;Game of Life&quot;</button> &nbsp;
+							<button id="destroy-oo">Destroy OO &quot;Game of Life&quot;</button>
+							<div class="playground-frame">
+								<div id="playground-1" class="gol-playground"></div>
+								<br clear="all" />
+							</div>
+						</div>
+
 						<h2>Example Implementation using &quot;Flyweight Pattern&quot;</h2>
-                        <p></p>
-						<div id="playground-2" class="gol-playground"></div>
-						<br clear="all" />
-						<br clear="all" />
-						<br clear="all" />
+						<p></p>
+						<div>
+							<button id="create-fw">Create FW &quot;Game of Life&quot;</button> &nbsp;
+							<button id="destroy-fw">Destroy FW &quot;Game of Life&quot;</button>
+							<div class="playground-frame">
+								<div id="playground-2" class="gol-playground"></div>
+								<br clear="all" />
+							</div>
+						</div>
                     </section>
                     <footer>
                         <p>Comparing <strong>flyweight pattern performance</strong> to <strong>classical oo architecture</strong>!</p>
@@ -75,13 +81,13 @@
                     <p>Some info</p>
                     <div class="specs" id="oo-specs">
                     	<label>
-                    		cols: <input type="text" id="oo-playground-cols" class="short" value="" /> /
+                    		cols: <input type="text" id="oo-playground-cols" class="short" value="" /> -
                     		rows: <input type="text" id="oo-playground-rows" class="short" value="" />
                     	</label>
                     	<label>time to build playground
                     		<input type="text" id="oo-playground-build-time" class="timing" value="" />
                     	</label>
-                    	
+
                     	<label>average step time
                     		<input type="text" id="oo-playground-avg-step-time" class="timing" value="" />
                     	</label>
@@ -95,17 +101,18 @@
                     		<textarea id="oo-step-times" class="list"></textarea>
                     	</label>
                     </div>
+
                     <h3>FW Pattern timing</h3>
                     <p>Some info</p>
                     <div class="specs" id="fw-specs">
                     	<label>
-                    		cols: <input type="text" id="fw-playground-cols" class="short" value="" /> /
+                    		cols: <input type="text" id="fw-playground-cols" class="short" value="" /> -
                     		rows: <input type="text" id="fw-playground-rows" class="short" value="" />
                     	</label>
                     	<label>time to build playground
                     		<input type="text" id="fw-playground-build-time" class="timing" value="" />
                     	</label>
-                    	
+
                     	<label>average step time
                     		<input type="text" id="fw-playground-avg-step-time" class="timing" value="" />
                     	</label>
@@ -137,13 +144,46 @@
         <script type="text/javascript" src="js/main.js"></script>
 
 	<script type="text/javascript">
-	    var ooField = new GolPlayground('#playground-1', golConf.field.cols, golConf.field.rows);
-	    ooField.draw();
-	    ooField.preset(golConf);
-	    
+
+		var $ooColField = $('#oo-playground-cols');
+		var $ooRowField = $('#oo-playground-rows');
+
+		$ooColField.val(golConf.field.cols);
+		$ooRowField.val(golConf.field.rows);
+
+	    var ooField;
+
+	    $('#create-oo').click(function (e) {
+			var ooCols = parseInt($('#oo-playground-cols').val(), 10);
+			var ooRows = parseInt($('#oo-playground-rows').val(), 10);
+
+			ooField = new GolPlayground('#playground-1', ooCols, ooRows);
+			ooField.draw();
+			ooField.preset(golConf);
+		});
+
+		$('#destroy-oo').click(function (e) {
+			for (var r in ooField.matrix) {
+				var row = ooField.matrix[r];
+				for (var c in row) {
+					var cell = row[c];
+					cell.removeAllNeighbours();
+					cell.element.remove();
+					delete ooField.matrix[r][c];
+				}
+			}
+			var par = ooField.parent.detach();
+			ooField.parent.parent().empty();
+			ooField.parent.parent().append(par);
+			ooField.parent.css({ height: '80px', width: '100%'});
+			delete ooField;
+		});
+
 	    var fwField = new FwPlayground('#playground-2', golConf.field.cols, golConf.field.rows);
-	    ooField.draw();
-	    ooField.preset(golConf);
+		$('#create-fw').click(function (e) {
+			fwField.draw();
+			fwField.preset(golConf);
+		});
 	</script>
     </body>
 </html>

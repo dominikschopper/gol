@@ -172,19 +172,28 @@ var GolCell = (function() {
      */
     GolCell.prototype.removeNeighbour = function(n) {
 
-	var neighbours = [],
-		i = 0;
+		var neighbours = [],
+			i = 0;
 
-	for (i in this.neighbours) {
-	    if (this.neighbours.hasOwnProperty(i) && this.neighbours[i] !== n) {
-		neighbours.push(n);
-	    }
-	}
+		for (i in this.neighbours) {
+			if (this.neighbours.hasOwnProperty(i) && this.neighbours[i] !== n) {
+			neighbours.push(n);
+			}
+		}
 
-	this.neighbours = neighbours;
+		this.neighbours = neighbours;
 
-	return this;
+		return this;
     };
+
+	/**
+	 * emtpies neighbours array
+	 * @returns {GolCell}
+	 */
+	GolCell.prototype.removeAllNeighbours = function () {
+		this.neighbours = [ ];
+		return this;
+	};
 
     /**
      *
@@ -318,73 +327,73 @@ var GolPlayground = (function() {
     };
 
     GolPlayground.prototype.draw = function() {
-	var r = 0,
-	    c = 0,
-	    cell = null,
-	    cellEl = null,
-	    lastRow = 0,
-	    nextRow = 0,
-	    lastCol = 0,
-	    nextCol = 0;
+		var r = 0,
+			c = 0,
+			cell = null,
+			cellEl = null,
+			lastRow = 0,
+			nextRow = 0,
+			lastCol = 0,
+			nextCol = 0;
 
-	for (r = 0; r < this.rowNo; r += 1) {
-	    this.matrix[r] = [];
-	    for (c = 0; c < this.colNo; c += 1) {
-		cell = new GolCell();
-		cellEl = $('<div class="gol-cell">');
-		cell.setElement(cellEl);
-		this.matrix[r][c] = cell;
-		this.parent.append(cellEl);
-	    }
-	}
+		for (r = 0; r < this.rowNo; r += 1) {
+			this.matrix[r] = [];
+			for (c = 0; c < this.colNo; c += 1) {
+			cell = new GolCell();
+			cellEl = $('<div class="gol-cell">');
+			cell.setElement(cellEl);
+			this.matrix[r][c] = cell;
+			this.parent.append(cellEl);
+			}
+		}
 
-	for (r = 0; r < this.rowNo; r += 1) {
-	    lastRow = (r - 1 < 0 ? this.rowNo - 1 : r - 1);
-	    nextRow = (r + 1 >= this.rowNo ? 0 : r + 1);
-	    for (c = 0; c < this.colNo; c += 1) {
-		lastCol = (c - 1 < 0 ? this.colNo - 1 : c - 1);
-		nextCol = (c + 1 >= this.colNo ? 0 : c + 1);
-		this.matrix[r][c].addNeighbour(this.matrix[lastRow][lastCol]);
-		this.matrix[r][c].addNeighbour(this.matrix[lastRow][c]);
-		this.matrix[r][c].addNeighbour(this.matrix[lastRow][nextCol]);
-		this.matrix[r][c].addNeighbour(this.matrix[r][lastCol]);
-		this.matrix[r][c].addNeighbour(this.matrix[r][nextCol]);
-		this.matrix[r][c].addNeighbour(this.matrix[nextRow][lastCol]);
-		this.matrix[r][c].addNeighbour(this.matrix[nextRow][c]);
-		this.matrix[r][c].addNeighbour(this.matrix[nextRow][nextCol]);
-	    }
-	}
-	var stepButton = $('<hr /><input type="submit" value="next step" />');
-	var playButton = $('<input type="submit" value="play" />');
-	var stopButton = $('<input type="submit" value="stop" />');
+		for (r = 0; r < this.rowNo; r += 1) {
+			lastRow = (r - 1 < 0 ? this.rowNo - 1 : r - 1);
+			nextRow = (r + 1 >= this.rowNo ? 0 : r + 1);
+			for (c = 0; c < this.colNo; c += 1) {
+			lastCol = (c - 1 < 0 ? this.colNo - 1 : c - 1);
+			nextCol = (c + 1 >= this.colNo ? 0 : c + 1);
+			this.matrix[r][c].addNeighbour(this.matrix[lastRow][lastCol]);
+			this.matrix[r][c].addNeighbour(this.matrix[lastRow][c]);
+			this.matrix[r][c].addNeighbour(this.matrix[lastRow][nextCol]);
+			this.matrix[r][c].addNeighbour(this.matrix[r][lastCol]);
+			this.matrix[r][c].addNeighbour(this.matrix[r][nextCol]);
+			this.matrix[r][c].addNeighbour(this.matrix[nextRow][lastCol]);
+			this.matrix[r][c].addNeighbour(this.matrix[nextRow][c]);
+			this.matrix[r][c].addNeighbour(this.matrix[nextRow][nextCol]);
+			}
+		}
+		var stepButton = $('<input type="submit" value="next step" />&nbsp;&nbsp;');
+		var playButton = $('<input type="submit" value="play" />');
+		var stopButton = $('<input type="submit" value="stop" />');
 
-	this.parent.css({
-	    width: ((cellEl.outerWidth() + 2) * this.colNo),
-	    height: ((2 + cellEl.outerHeight()) * this.rowNo),
-	    padding: 0
-	});
+		this.parent.css({
+			width: ((cellEl.outerWidth() + 2) * this.colNo),
+			height: ((2 + cellEl.outerHeight()) * this.rowNo),
+			padding: 0
+		});
 
-	me = this;
-	var timeout = null;
+		var me1 = this;
+		var timeout = null;
 
-	stepButton.click(function () {
-	    me.step();
-	});
+		stepButton.click(function () {
+			me1.step();
+		});
 
-	playButton.click(function () {
-	    console.log('triggering play');
-	    timeout = window.setInterval(function () { me.step(); }, 333);
-	});
+		playButton.click(function () {
+			console.log('triggering play');
+			timeout = window.setInterval(function () { me1.step(); }, 450);
+		});
 
-	stopButton.click(function () {
-	    clearInterval(timeout);
-	});
+		stopButton.click(function () {
+			clearInterval(timeout);
+		});
 
-	this.parent.append(stepButton);
-	this.parent.append(playButton);
-	this.parent.append(stopButton);
+		this.parent.parent().append(stepButton);
+		this.parent.parent().append(stopButton);
+		this.parent.parent().append(playButton);
 
-	return this;
+		return this;
     };
 
     GolPlayground.prototype.preset = function(conf) {
@@ -495,7 +504,7 @@ var FwPlayground = (function () {
 	    }
 	}
 
-	var stepButton = $('<hr /><input type="submit" value="fw step" />');
+	var stepButton = $('<input type="submit" value="fw step" />&nbsp;&nbsp;');
 	var playButton = $('<input type="submit" value="fw play" />');
 	var stopButton = $('<input type="submit" value="fw stop" />');
 
@@ -505,7 +514,7 @@ var FwPlayground = (function () {
 	    padding: 0
 	});
 
-	me = this;
+	var me = this;
 	var timeout = null;
 
 	stepButton.click(function () {
@@ -521,9 +530,9 @@ var FwPlayground = (function () {
 	    clearInterval(timeout);
 	});
 
-	this.parent.append(stepButton);
-	this.parent.append(playButton);
-	this.parent.append(stopButton);
+	this.parent.parent().append(stepButton);
+	this.parent.parent().append(stopButton);
+	this.parent.parent().append(playButton);
 
 	return this;
     };
