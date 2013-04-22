@@ -374,19 +374,21 @@ var GolPlayground = (function() {
 		});
 
 		var me1 = this;
-		var timeout = null;
+		var timeout = [];
 
 		stepButton.click(function () {
 			me1.step();
 		});
 
 		playButton.click(function () {
-			console.log('triggering play');
-			timeout = window.setInterval(function () { me1.step(); }, 450);
+			if (timeout.length > 0) {
+				return;
+			}
+			timeout.push( window.setInterval(function () { me1.step(); }, 450) );
 		});
 
 		stopButton.click(function () {
-			clearInterval(timeout);
+			clearInterval(timeout.pop());
 		});
 
 		this.parent.parent().append(stepButton);
@@ -498,9 +500,24 @@ var FwPlayground = (function () {
 	for (r = 0; r < this.rowNo; r += 1) {
 	    this.matrix[r] = [];
 	    for (c = 0; c < this.colNo; c += 1) {
-		cellEl = $('<div class="gol-cell">');
-		this.matrix[r][c] = cellEl;
-		this.parent.append(cellEl);
+			cellEl = $('<div class="gol-cell">');
+
+cellEl.click(function (ev) {
+
+	    ev.stopPropagation();
+	    console.log('before', me.getState(), me.element);
+
+	    if (me.getState()) {
+		me.setState(false);
+	    }  else {
+		me.setState(true);
+	    }
+
+	    console.log('after ', me.getState(), me.element);
+	});
+			
+			this.matrix[r][c] = cellEl;
+			this.parent.append(cellEl);
 	    }
 	}
 
@@ -515,20 +532,22 @@ var FwPlayground = (function () {
 	});
 
 	var me = this;
-	var timeout = null;
+	var timeout = [];
 
-	stepButton.click(function () {
-	    me.step();
-	});
+		stepButton.click(function () {
+			me1.step();
+		});
 
-	playButton.click(function () {
-	    console.log('triggering play');
-	    timeout = window.setInterval(function () { me.step(); }, 333);
-	});
+		playButton.click(function () {
+			if (timeout.length > 0) {
+				return;
+			}
+			timeout.push( window.setInterval(function () { me1.step(); }, 450) );
+		});
 
-	stopButton.click(function () {
-	    clearInterval(timeout);
-	});
+		stopButton.click(function () {
+			clearInterval(timeout.pop());
+		});
 
 	this.parent.parent().append(stepButton);
 	this.parent.parent().append(stopButton);
@@ -536,6 +555,10 @@ var FwPlayground = (function () {
 
 	return this;
     };
+
+	FwPlayground.prototype.preset = function () {
+		return true;
+	}
 
     return FwPlayground;
 }());
