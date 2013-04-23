@@ -85,7 +85,7 @@ var golConf = {
  * @property {Array} neighbours
  */
 var GolCell = (function() {
-    var GolCell = function() {
+	var GolCell = function() {
 
 	this.element = null;
 
@@ -95,82 +95,82 @@ var GolCell = (function() {
 	this.neighbours = [];
 	//console.log('creating cell');
 	return this;
-    };
+	};
 
-    GolCell.prototype.setElement = function(el) {
+	GolCell.prototype.setElement = function(el) {
 
 	this.element = el;
 	var me = this;
 
 	this.element.click(function (ev) {
 
-	    ev.stopPropagation();
-	    console.log('before', me.getState(), me.element);
+		ev.stopPropagation();
+		console.log('before', me.getState(), me.element);
 
-	    if (me.getState()) {
+		if (me.getState()) {
 		me.setState(false);
-	    }  else {
+		}  else {
 		me.setState(true);
-	    }
+		}
 
-	    console.log('after ', me.getState(), me.element);
+		console.log('after ', me.getState(), me.element);
 	});
 	return this;
-    };
+	};
 
-    /**
-     *
-     * @param {Boolean} state
-     * @returns {GolCell}
-     */
-    GolCell.prototype.setNextState = function(state) {
+	/**
+	 *
+	 * @param {Boolean} state
+	 * @returns {GolCell}
+	 */
+	GolCell.prototype.setNextState = function(state) {
 	this.nextState = (state ? true : false);
 	return this;
-    };
+	};
 
-    GolCell.prototype.setState = function(state) {
+	GolCell.prototype.setState = function(state) {
 
 	this.state = (state ? true : false);
 
 	if (this.getState()) {
-	    this.element.addClass('active');
+		this.element.addClass('active');
 	}  else {
-	    this.element.removeClass('active');
+		this.element.removeClass('active');
 	}
 
 	return this;
-    };
+	};
 
-    GolCell.prototype.activateState = function() {
+	GolCell.prototype.activateState = function() {
 	this.setState(this.nextState);
 	this.nextState = false;
 	return this;
-    };
+	};
 
-    /**
-     *
-     * @returns {Boolean}
-     */
-    GolCell.prototype.getState = function() {
+	/**
+	 *
+	 * @returns {Boolean}
+	 */
+	GolCell.prototype.getState = function() {
 	return this.state;
-    };
+	};
 
-    /**
-     *
-     * @param {type} n
-     * @returns {GolCell}
-     */
-    GolCell.prototype.addNeighbour = function(n) {
+	/**
+	 *
+	 * @param {type} n
+	 * @returns {GolCell}
+	 */
+	GolCell.prototype.addNeighbour = function(n) {
 	this.neighbours.push(n);
 	return this;
-    };
+	};
 
-    /**
-     *
-     * @param {type} n
-     * @returns {GolCell}
-     */
-    GolCell.prototype.removeNeighbour = function(n) {
+	/**
+	 *
+	 * @param {type} n
+	 * @returns {GolCell}
+	 */
+	GolCell.prototype.removeNeighbour = function(n) {
 
 		var neighbours = [],
 			i = 0;
@@ -184,7 +184,7 @@ var GolCell = (function() {
 		this.neighbours = neighbours;
 
 		return this;
-    };
+	};
 
 	/**
 	 * emtpies neighbours array
@@ -195,25 +195,25 @@ var GolCell = (function() {
 		return this;
 	};
 
-    /**
-     *
-     * @returns {Number}
-     */
-    GolCell.prototype.getActiveNeighbourCount = function() {
+	/**
+	 *
+	 * @returns {Number}
+	 */
+	GolCell.prototype.getActiveNeighbourCount = function() {
 
 	var count = 0;
 
 	for (i in this.neighbours) {
-	    if (this.neighbours.hasOwnProperty(i) && this.neighbours[i].getState()) {
+		if (this.neighbours.hasOwnProperty(i) && this.neighbours[i].getState()) {
 		count += 1;
-	    }
+		}
 	}
 
 	return count;
-    };
+	};
 
-    // returning the GolCell
-    return GolCell;
+	// returning the GolCell
+	return GolCell;
 }());
 
 
@@ -225,82 +225,61 @@ var GolCell = (function() {
  * @property {Array} neighbours
  */
 var FwCell = (function() {
-    var FwCell = function() {
+	
+	var FwCell = function() {
 
-	this.state = false;
-	this.neighbours = [];
+		this.state = null;
+		this.el = null;
+		this.neighbours = [];
 
-	return this;
-    };
+		return this;
+	};
 
-    /**
-     *
-     * @param {Boolean} state
-     * @returns {FwCell}
-     */
-    FwCell.prototype.setState = function(state) {
-	this.state = (state ? true : false);
-	return this;
-    };
+	FwCell.prototype.setElement = function (el) {
+		// element is given and ...
+		if (el) {
+			// ... element is not jquery wrapped
+			if (!el.jquery) {
+				el = jQuery(el);
+			}
+			this.el = el;
+			// reset the state to neutral
+			this.state = null;
+		}
+		return this;
+	};
 
-    /**
-     *
-     * @returns {Boolean}
-     */
-    FwCell.prototype.getState = function() {
-	return this.state;
-    };
+	/**
+	 *
+	 * @param {Boolean} state
+	 * @returns {FwCell}
+	 */
+	FwCell.prototype.setState = function(state) {
+		// setting internal state
+		this.state = (state ? true : false);
+		this.el.data('state', this.state);
+		if (this.state) {
+			this.el.addClass('active');
+		} else {
+			this.el.removeClass('active');
+		}
+		return this;
+	};
 
-    /**
-     *
-     * @param {type} n
-     * @returns {FwCell}
-     */
-    FwCell.prototype.addNeighbour = function(n) {
-	this.neighbours.push(n);
-	return this;
-    };
+	/**
+	 *
+	 * @returns {Boolean}
+	 */
+	FwCell.prototype.getState = function() {
+		if (this.state === null) {
+			this.state = this.el.data('state');
+		}
+		return this.state;
+	};
 
-    /**
-     *
-     * @param {type} n
-     * @returns {FwCell}
-     */
-    FwCell.prototype.removeNeighbour = function(n) {
 
-	var neighbours = [],
-		i = 0;
-
-	for (i in this.neighbours) {
-	    if (this.neighbours.hasOwnProperty(i) && this.neighbours[i] !== n) {
-		neighbours.push(n);
-	    }
-	}
-
-	this.neighbours = neighbours;
-
-	return this;
-    };
-
-    /**
-     *
-     * @returns {Number}
-     */
-    FwCell.prototype.getActiveNeighbourCount = function() {
-
-	var count = 0;
-
-	for (i in this.neighbours) {
-	    if (this.neighbours.hasOwnProperty(i) && this.neighbours[i].getState()) {
-		count += 1;
-	    }
-	}
-
-	return count;
-    };
-
-    // returning the FwCell
-    return FwCell;
+	// returning the FwCell
+	return FwCell;
 }());
 
 
@@ -309,14 +288,14 @@ var FwCell = (function() {
  * @type GolPlayground
  */
 var GolPlayground = (function() {
-    /**
-     * @constructor
-     * @param {Object} where
-     * @param {Object} col
-     * @param {Object} row
-     * @returns GolPlayground
-     */
-    var GolPlayground = function(where, col, row) {
+	/**
+	 * @constructor
+	 * @param {Object} where
+	 * @param {Object} col
+	 * @param {Object} row
+	 * @returns GolPlayground
+	 */
+	var GolPlayground = function(where, col, row) {
 
 	this.parent = $(where);
 
@@ -324,9 +303,9 @@ var GolPlayground = (function() {
 	this.rowNo = row || 50;
 
 	this.matrix = [];
-    };
+	};
 
-    GolPlayground.prototype.draw = function() {
+	GolPlayground.prototype.draw = function() {
 		var r = 0,
 			c = 0,
 			cell = null,
@@ -396,9 +375,9 @@ var GolPlayground = (function() {
 		this.parent.parent().append(playButton);
 
 		return this;
-    };
+	};
 
-    GolPlayground.prototype.preset = function(conf) {
+	GolPlayground.prototype.preset = function(conf) {
 
 	var rowStart = 0,
 		r = 0,
@@ -414,9 +393,9 @@ var GolPlayground = (function() {
 
 	for (rowStart in conf.presets) { if (conf.presets.hasOwnProperty(rowStart)) { // checking if the row exist and the js default check!
 
-	    rowStart = parseInt(rowStart, 10);
+		rowStart = parseInt(rowStart, 10);
 
-	    for (colStart in conf.presets[rowStart]) { if (conf.presets[rowStart].hasOwnProperty(colStart)) {
+		for (colStart in conf.presets[rowStart]) { if (conf.presets[rowStart].hasOwnProperty(colStart)) {
 
 		colStart = parseInt(colStart,10);
 
@@ -425,117 +404,129 @@ var GolPlayground = (function() {
 		//console.log('colStart: %o - rowStart: %o - figure: %o', colStart, rowStart, figure);
 
 		for (r in field) { if (field.hasOwnProperty(r)) {
-		    r = parseInt(r, 10);
-		    row = rowStart + r;
-		    for (c in field[r]) { if (field[r].hasOwnProperty(c)) {
+			r = parseInt(r, 10);
+			row = rowStart + r;
+			for (c in field[r]) { if (field[r].hasOwnProperty(c)) {
 			c = parseInt(c, 10);
 			col = colStart + c;
 			status = field[r][c];
 			if (this.matrix.length > row && this.matrix[row].length > col ) {
-			    this.matrix[row][col] && this.matrix[row][col].setState(status);
-			    //console.log('setting row: %o / col %o  => obj(%o) to status: %o', row, col, this.matrix[row][col], status);
+				this.matrix[row][col] && this.matrix[row][col].setState(status);
+				//console.log('setting row: %o / col %o  => obj(%o) to status: %o', row, col, this.matrix[row][col], status);
 			}
-		    } }
+			} }
 		} }
-	    } }
+		} }
 	} }
 
 	return this;
-    };
+	};
 
-    GolPlayground.prototype.step = function() {
+	GolPlayground.prototype.step = function() {
 	var s1 = Date.now();
 	var cell = {},
-	    actives = 0,
-	    r = 0,
-	    c = 0;
+		actives = 0,
+		r = 0,
+		c = 0;
 
 	for (r = 0; r < this.rowNo; r += 1) {
-	    for (c = 0; c < this.colNo; c += 1) {
+		for (c = 0; c < this.colNo; c += 1) {
 		cell = this.matrix[r][c];
 		actives = cell.getActiveNeighbourCount();
 		if (cell.getState()) {
-		    if (actives === 2 || actives === 3) {
+			if (actives === 2 || actives === 3) {
 			cell.setNextState(true);
-		    }
+			}
 		} else {
-		    if (actives === 3) {
+			if (actives === 3) {
 			cell.setNextState(true);
-		    }
+			}
 		}
-	    }
+		}
 	}
 
 	for (r = 0; r < this.rowNo; r += 1) {
-	    for (c = 0; c < this.colNo; c += 1) {
+		for (c = 0; c < this.colNo; c += 1) {
 		cell = this.matrix[r][c];
 		cell.activateState();
-	    }
+		}
 	}
 	console.log('_end_ step %o ms', Date.now() - s1);
 	return this;
-    };
+	};
 
-    return GolPlayground;
+	return GolPlayground;
 
 }());
 
 
 var FwPlayground = (function () {
-    var FwPlayground = function (where, col, row) {
-    	this.parent = $(where);
+	var FwPlayground = function (where, col, row) {
+		this.parent = $(where);
 
 		this.colNo = col || 90;
 		this.rowNo = row || 50;
 
+		this.fwCell = new FwCell();
+
 		this.matrix = [];
+		this.matrix2 = [];
+		this.matrix_ = [];
+
+		this.activeCol = 0;
+		this.activeRow = 0;
+
 		return this;
-    };
+	};
 
-    FwPlayground.prototype.draw = function() {
-	var r = 0,
-	    c = 0,
-	    cellEl = null;
+	FwPlayground.prototype.draw = function() {
+		var r = 0,
+			c = 0,
+			cellEl = null;
+ 		var me = this;
+		for (r = 0; r < this.rowNo; r += 1) {
+			this.matrix[r] = [];
+			for (c = 0; c < this.colNo; c += 1) {
+				cellEl = $('<div data-col="'+ c +'" data-row="'+ r +'" data-state="false" data-nextstate="false" id="cell-'+ r +'-'+ c +'" class="gol-cell col-'+ c +' row-'+ r +'">');
 
-	for (r = 0; r < this.rowNo; r += 1) {
-	    this.matrix[r] = [];
-	    for (c = 0; c < this.colNo; c += 1) {
-			cellEl = $('<div class="gol-cell">');
+			cellEl.click(function (ev) {
 
-cellEl.click(function (ev) {
+				ev.stopPropagation();
+				var el = jQuery(this);
+				me.fwCell.setElement(el);
+				if (me.fwCell.getState()) {
+					me.fwCell.setState(false);
+				}  else {
+					me.fwCell.setState(true);
+					me.matrix[ el.data('row') ][ el.data('col') ] = true;
+				}
 
-	    ev.stopPropagation();
-	    console.log('before', me.getState(), me.element);
+			});
 
-	    if (me.getState()) {
-		me.setState(false);
-	    }  else {
-		me.setState(true);
-	    }
+				this.matrix[r][c]  = false;
 
-	    console.log('after ', me.getState(), me.element);
-	});
-			
-			this.matrix[r][c] = cellEl;
-			this.parent.append(cellEl);
-	    }
-	}
+				this.parent.append(cellEl);
+			}
+		}
 
-	var stepButton = $('<input type="submit" value="fw step" />&nbsp;&nbsp;');
-	var playButton = $('<input type="submit" value="fw play" />');
-	var stopButton = $('<input type="submit" value="fw stop" />');
+		this.matrix_ = this.matrix.slice();
+		this.matrix2 = this.matrix.slice();
 
-	this.parent.css({
-	    width: ((cellEl.outerWidth() + 2) * this.colNo),
-	    height: ((2 + cellEl.outerHeight()) * this.rowNo),
-	    padding: 0
-	});
+		var stepButton = $('<input type="submit" value="fw step" />&nbsp;&nbsp;');
+		var playButton = $('<input type="submit" value="fw play" />');
+		var stopButton = $('<input type="submit" value="fw stop" />');
 
-	var me = this;
-	var timeout = [];
+		this.parent.css({
+			width: ((cellEl.outerWidth() + 2) * this.colNo),
+			height: ((2 + cellEl.outerHeight()) * this.rowNo),
+			padding: 0
+		});
+
+		var me = this;
+		var timeout = [];
 
 		stepButton.click(function () {
-			me1.step();
+			me.step();
 		});
 
 		playButton.click(function () {
@@ -549,16 +540,91 @@ cellEl.click(function (ev) {
 			clearInterval(timeout.pop());
 		});
 
-	this.parent.parent().append(stepButton);
-	this.parent.parent().append(stopButton);
-	this.parent.parent().append(playButton);
+		this.parent.parent().append(stepButton);
+		this.parent.parent().append(stopButton);
+		this.parent.parent().append(playButton);
 
-	return this;
-    };
+		return this;
+	};
 
 	FwPlayground.prototype.preset = function () {
 		return true;
-	}
+	};
 
-    return FwPlayground;
+	FwPlayground.prototype.getId = function () {
+		return '#cell-'+ this.activeRow +'-'+ this.activeCol;
+	};
+
+	FwPlayground.prototype.getNextRowCol = function () {
+		var col = this.activeCol++;
+		var row = this.activeRow;
+		//console.log('getnextRowCol', row, col);
+		if (this.activeCol >= this.colNo) {
+			this.activeCol = 0;
+			this.activeRow++;
+		}
+		
+		if (this.activeRow >= this.rowNo) {
+			this.activeCol = 0;
+			this.activeRow = 0
+			return false;
+		}
+		
+		return { row: row, col: col };
+	};
+
+	FwPlayground.prototype.getActiveNeighbours = function () {
+		var count = 0,
+			r = 0,
+			c = 0,
+			rowMinus = this.activeRow - 1 < 0           ? this.rowNo - 1 : this.activeRow - 1,
+			rowPlus  = this.activeRow + 1 >= this.rowNo ? 0              : this.activeRow + 1,
+			colMinus = this.activeCol - 1 < 0           ? this.colNo - 1 : this.activeCol - 1,
+			colPlus  = this.activeCol + 1 >= this.colNo ? 0              : this.activeCol + 1;
+
+		for (r in [ rowMinus, this.activeRow, rowPlus ]) {
+			for (c in [ colMinus, this.activeCol, colPlus ]) {
+				if (c === this.activeCol && r === this.activeRow) {
+					continue;
+				}
+				if (this.matrix[r][c] == true) {
+					count += 1;
+				}
+			}
+		}
+
+		console.log('getActives for row: %o, col: %o -> %o', this.activeRow, this.activeCol, count);
+		return count;
+	};
+
+	FwPlayground.prototype.step = function () {
+		console.log('step');
+		var max = this.rowNo * this.colNo,
+			actives = 0,
+			rc = {};
+
+		while ((rc = this.getNextRowCol()) !== false) {
+			//console.log('col/row', rc)
+			this.fwCell.setElement($(this.getId()));
+			actives = this.getActiveNeighbours();
+			console.log('row: %o, col: %o, active: %o', rc.row, rc.col, actives);
+			if (actives === 3) {
+				this.fwCell.setState(true);
+				this.matrix2[rc.row][rc.col] = true;
+			} else if (this.fwCell.getState() === true && (actives === 3 || actives === 2)) {
+				this.fwCell.setState(true);
+				this.matrix2[rc.row][rc.col] = true;
+			} else {
+				this.fwCell.setState(false);
+				this.matrix2[rc.row][rc.col] = false;
+			}
+		}
+
+		this.matrix = this.matrix2;
+		this.matrix2 = this.matrix_.slice();
+		
+		
+	};
+
+	return FwPlayground;
 }());
