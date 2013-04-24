@@ -1,6 +1,9 @@
 /**
  * ...
  */
+
+"use strict";
+
 var golConf = {
 	field: {
 		rows: 60,
@@ -225,7 +228,7 @@ var GolCell = (function() {
  * @property {Array} neighbours
  */
 var FwCell = (function() {
-	
+
 	var FwCell = function() {
 
 		this.state = null;
@@ -533,7 +536,7 @@ var FwPlayground = (function () {
 			if (timeout.length > 0) {
 				return;
 			}
-			timeout.push( window.setInterval(function () { me1.step(); }, 450) );
+			timeout.push( window.setInterval(function () { me.step(); }, 450) );
 		});
 
 		stopButton.click(function () {
@@ -555,36 +558,42 @@ var FwPlayground = (function () {
 		return '#cell-'+ this.activeRow +'-'+ this.activeCol;
 	};
 
-	FwPlayground.prototype.getNextRowCol = function () {
-		var col = this.activeCol++;
-		var row = this.activeRow;
-		//console.log('getnextRowCol', row, col);
+	FwPlayground.prototype.next = function () {
+		var col = this.activeCol,
+			row = this.activeRow;
+
+		++this.activeCol;
+
 		if (this.activeCol >= this.colNo) {
 			this.activeCol = 0;
-			this.activeRow++;
+			++this.activeRow;
 		}
-		
+
 		if (this.activeRow >= this.rowNo) {
 			this.activeCol = 0;
-			this.activeRow = 0
+			this.activeRow = 0;
 			return false;
 		}
-		
+
 		return { row: row, col: col };
 	};
 
-	FwPlayground.prototype.getActiveNeighbours = function () {
+	FwPlayground.prototype.getActiveNeighbours = function (row, col) {
 		var count = 0,
 			r = 0,
 			c = 0,
-			rowMinus = this.activeRow - 1 < 0           ? this.rowNo - 1 : this.activeRow - 1,
-			rowPlus  = this.activeRow + 1 >= this.rowNo ? 0              : this.activeRow + 1,
-			colMinus = this.activeCol - 1 < 0           ? this.colNo - 1 : this.activeCol - 1,
-			colPlus  = this.activeCol + 1 >= this.colNo ? 0              : this.activeCol + 1;
+			rowMinus = row - 1 < 0           ? this.rowNo - 1 : row - 1,
+			rowPlus  = row + 1 >= this.rowNo ? 0              : row + 1,
+			colMinus = col - 1 < 0           ? this.colNo - 1 : col - 1,
+			colPlus  = col + 1 >= this.colNo ? 0              : col + 1,
+			rows = [ rowMinus, row, rowPlus ],
+			cols = [ colMinus, col, colPlus ];
 
-		for (r in [ rowMinus, this.activeRow, rowPlus ]) {
-			for (c in [ colMinus, this.activeCol, colPlus ]) {
-				if (c === this.activeCol && r === this.activeRow) {
+		console.log('rows %o ::: cols %o', rows, cols);
+
+		for (r in rows) {
+			for (c in cols) {
+				if (c === col && r === row) {
 					continue;
 				}
 				if (this.matrix[r][c] == true) {
@@ -593,7 +602,7 @@ var FwPlayground = (function () {
 			}
 		}
 
-		console.log('getActives for row: %o, col: %o -> %o', this.activeRow, this.activeCol, count);
+		console.log('getActives for row: %o, col: %o -> %o', row, col, count);
 		return count;
 	};
 
@@ -603,27 +612,29 @@ var FwPlayground = (function () {
 			actives = 0,
 			rc = {};
 
-		while ((rc = this.getNextRowCol()) !== false) {
+		rc = this.next();
+		while (rc !== false) {
 			//console.log('col/row', rc)
 			this.fwCell.setElement($(this.getId()));
-			actives = this.getActiveNeighbours();
+			actives = this.getActiveNeighbours(rc.row, rc.col);
 			console.log('row: %o, col: %o, active: %o', rc.row, rc.col, actives);
 			if (actives === 3) {
 				this.fwCell.setState(true);
 				this.matrix2[rc.row][rc.col] = true;
-			} else if (this.fwCell.getState() === true && (actives === 3 || actives === 2)) {
+			} else if (this.fwCell.getState() === true && actives === 2) {
 				this.fwCell.setState(true);
 				this.matrix2[rc.row][rc.col] = true;
 			} else {
 				this.fwCell.setState(false);
 				this.matrix2[rc.row][rc.col] = false;
 			}
+			rc = this.next();
 		}
 
 		this.matrix = this.matrix2;
 		this.matrix2 = this.matrix_.slice();
-		
-		
+
+
 	};
 
 	return FwPlayground;

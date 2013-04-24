@@ -56,6 +56,12 @@ aside p {
 	color: black;
 }
 
+.label-subst {
+	display: block;
+	width: 200px;
+	float: left;
+}
+
 .specs input {
 	color: black;
 	font-family: "Courier New", Courier, monospace;
@@ -78,4 +84,8 @@ aside p {
 .specs textarea {
 	width: 90%;
 	height: 5em;
+}
+
+.specs .list {
+	font-size: smaller;
 }

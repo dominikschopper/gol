@@ -47,8 +47,8 @@
                         <h2>Example Implementation &quot;Classical OO&quot;</h2>
                         <p>
                         	This implementation uses one instantiated <code>GolCell</code> Object for each of the cells in the playground.
-                        	So with each col/row, the impact on the browser gets heavier (and mostly more sluggish!).
-                        	Try scrolling while something is done!
+                        	So with each col/row, the impact on the browser gets heavier (and mostly more sluggish!).<br />
+							See timing info.
                         </p>
 						<div>
 							<button id="create-oo">Create OO &quot;Game of Life&quot;</button> &nbsp;
@@ -77,28 +77,31 @@
 
                 <aside id="auto-accordeon">
                     <h4>Youll find some timing specs here!!</h4>
+					<div class="specs" id="oo-specs">
+						<form onSubmit="alert('#');return false;">
+							<label>
+								cols: <input type="text" id="playground-cols" class="short" value="" /> -
+								rows: <input type="text" id="playground-rows" class="short" value="" />
+							</label>
+						</form>
+					</div>
                     <div id="side-slider">
                         <h3>OO Pattern timing</h3>
-                        <p>Some info</p>
+							<p>Some info</p>
+							<br />
                         <div class="specs" id="oo-specs">
                         	<label>
-                        		cols: <input type="text" id="oo-playground-cols" class="short" value="" /> -
-                        		rows: <input type="text" id="oo-playground-rows" class="short" value="" />
-                        	</label>
-                        	<label>time to build playground
+								<span class="label-subst">time to build playground</span>
                         		<input type="text" id="oo-playground-build-time" class="timing" value="" />
                         	</label>
 
-                        	<label>average step time
-                        		<input type="text" id="oo-playground-avg-step-time" class="timing" value="" />
-                        	</label>
-                        	<label>max step time
+                        	<label><span class="label-subst">max step time</span>
                         		<input type="text" id="oo-playground-max-step-time" class="timing" value="" />
                         	</label>
-                        	<label>min step time
+							<label><span class="label-subst">min step time</span>
                         		<input type="text" id="oo-playground-min-step-time" class="timing" value="" />
                         	</label>
-                        	<label>time to calculate each step<br />
+							<label><span class="label-subst">time to calculate each step</span>
                         		<textarea id="oo-step-times" class="list"></textarea>
                         	</label>
                         </div>
@@ -107,27 +110,32 @@
                         <p>Some info</p>
                         <div class="specs" id="fw-specs">
                         	<label>
-                        		cols: <input type="text" id="fw-playground-cols" class="short" value="" /> -
-                        		rows: <input type="text" id="fw-playground-rows" class="short" value="" />
-                        	</label>
-                        	<label>time to build playground
+								<span class="label-subst">time to build playground</span>
                         		<input type="text" id="fw-playground-build-time" class="timing" value="" />
                         	</label>
-
-                        	<label>average step time
-                        		<input type="text" id="fw-playground-avg-step-time" class="timing" value="" />
-                        	</label>
-                        	<label>max step time
+                        	<label>
+								<span class="label-subst">max step time</span>
                         		<input type="text" id="fw-playground-max-step-time" class="timing" value="" />
                         	</label>
-                        	<label>min step time
+                        	<label>
+								<span class="label-subst">min step time</span>
                         		<input type="text" id="fw-playground-min-step-time" class="timing" value="" />
                         	</label>
-                        	<label>time to calculate each step<br />
+                        	<label>
+								<span class="label-subst">time to calculate each step</span>
                         		<textarea id="step-times" class="list"></textarea>
                         	</label>
                         </div>
                     </div>
+					<div class="specs">
+						<label><span class="label-subst">oo average step time</span>
+							<input type="text" id="oo-playground-avg-step-time" class="timing" value="" />
+						</label>
+						<label>
+							<span class="label-subst">fw average step time</span>
+							<input type="text" id="fw-playground-avg-step-time" class="timing" value="" />
+						</label>
+					</div>
                 </aside>
 
             </div> <!-- #main -->
@@ -140,15 +148,15 @@
         </div>
 
         <script src="js/vendor/jquery-1.9.1.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.js"><\/script>')</script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.js"><\/script>');</script>
 
         <script type="text/javascript" src="js/measure.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
 
 	<script type="text/javascript">
 
-		var $ooColField = $('#oo-playground-cols');
-		var $ooRowField = $('#oo-playground-rows');
+		var $ooColField = $('#playground-cols');
+		var $ooRowField = $('#playground-rows');
 
 		$ooColField.val(golConf.field.cols);
 		$ooRowField.val(golConf.field.rows);
@@ -156,8 +164,8 @@
 	    var ooField;
 
 	    $('#create-oo').click(function (e) {
-			var ooCols = parseInt($('#oo-playground-cols').val(), 10);
-			var ooRows = parseInt($('#oo-playground-rows').val(), 10);
+			var ooCols = parseInt($('#playground-cols').val(), 10);
+			var ooRows = parseInt($('#playground-rows').val(), 10);
 
 			ooField = new GolPlayground('#playground-1', ooCols, ooRows);
 			ooField.draw();
@@ -183,13 +191,23 @@
 
 	    var fwField;
 		$('#create-fw').click(function (e) {
-            var ooCols = parseInt($('#oo-playground-cols').val(), 10);
-            var ooRows = parseInt($('#oo-playground-rows').val(), 10);
-            
-            fwField = new FwPlayground('#playground-2', ooCols, ooRows);
+            var fwCols = parseInt($('#playground-cols').val(), 10);
+            var fwRows = parseInt($('#playground-rows').val(), 10);
+
+            fwField = new FwPlayground('#playground-2', fwCols, fwRows);
 
 			fwField.draw();
 			fwField.preset(golConf);
+		});
+
+		$('#destroy-fw').click(function (e) {
+			fwField.matrix = [];
+			fwField.matrix2 = [];
+			fwField.matrix_ = [];
+			fwField.fwCell = null;
+			var playg = $('#playground-2');
+			playg.empty().css({height: 'auto', width: 'auto'});
+			playg.parent().find('input').remove();
 		});
 
         var sslider = $('#side-slider');
@@ -202,7 +220,7 @@
             e.stopImmediatePropagation();
             e.preventDefault();
             sslider.slideDown();
-        }, 
+        },
         function (e) {
             if (this != aside[0]) {
                 return;
@@ -210,7 +228,7 @@
             e.stopImmediatePropagation();
             e.preventDefault();
             sslider.slideUp();
-        })
+        });
 	</script>
     </body>
 </html>
