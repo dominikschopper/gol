@@ -1,0 +1,34 @@
+.game {
+    padding: 0.125rem;
+}
+.game__table-grid {
+    width: fit-content;
+    border: 1px solid var(--cl-violet);
+    border-collapse: collapse;
+}
+
+.game-cell {
+    line-height: 0;
+    padding: 0;
+    aspect-ratio: 1 / 1;
+    border: 2px solid var(--cl-violet-50);
+    background-color: var(--cl-grey);
+}
+
+.game-cell:has(.game-cell__value:checked) {
+    background-color: var(--cl-green);
+}
+
+.game-cell__value {
+    opacity: 0.5;
+    outline: none;
+    border: none;
+    aspect-ratio: 1 / 1;
+    appearance: none;
+    min-height: 1rem;
+    min-width: 1rem;
+}
+.game-cell__value:checked {
+    opacity: 1;
+    background-color: var(--cl-green);
+}

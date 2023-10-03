@@ -1,0 +1,14 @@
+:root {
+    --cl-green: rgb(69 177 82);
+    --cl-green-50: rgb(69 177 82 / .5);
+    --cl-red: rgb(210 79 86);
+    --cl-red-50: rgb(210 79 86 / .5);
+    --cl-white: rgb(250 245 245);
+    --cl-white-50: rgb(250 245 245 / .5);
+    --cl-grey: rgb(132 134 146);
+    --cl-grey-50: rgb(132 134 146 / .5);
+    --cl-violet: rgb(46 35 56);
+    --cl-violet-50: rgb(46 35 56 / .5);
+    --cl-black: rgb(39 22 39);
+    --cl-black-50: rgb(39 22 39 / .5);
+}

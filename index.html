@@ -1,227 +1,105 @@
 <!DOCTYPE html>
-<html class="no-js">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Conways Game of Life - JS implementation</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width">
+<html lang="en">
 
-        <link rel="stylesheet" href="css/normalize.min.css">
-        <link rel="stylesheet" href="css/main.css">
-	<link rel="stylesheet" href="css/gol.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conways Game of Life / redesign</title>
 
-        <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-    </head>
-    <body>
-        <div class="header-container">
-            <header class="wrapper clearfix">
-                <h1 class="title">Conways game of life</h1>
-                <nav>
-                    <ul>
-                        <li><a href="">Reload Page</a></li>
-                    </ul>
-                </nav>
-            </header>
+    <link rel="stylesheet" href="styles/base.css">
+
+</head>
+
+<body>
+    <div class="layout">
+    <header class="main-header white-on-dark">
+        <h1>Conways Game of Life</h1>
+        <p>.. an implementation in pure JS</p>
+    </header>
+    <main class="main" >
+
+        <h2>Game</h2>
+
+        <div class="game">
+            <table class="game__table-grid">
+                <tbody>
+                    <tr>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" checked type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                    </tr>
+                    <tr>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" checked type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" checked type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                    </tr>
+                    <tr>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                    </tr>
+                    <tr>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" checked value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                    </tr>
+                    <tr>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" checked value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                    </tr>
+                    <tr>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                    </tr>
+                    <tr>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                        <td class="game-cell"><input class="game-cell__value" value="1" type="checkbox" /></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
-        <div class="main-container">
-            <div class="main wrapper clearfix">
+    </main>
+    <footer class="main-footer">
 
-                <article>
-                    <header>
-                        <h2>Conways game of life</h2>
-                    </header>
-                    <section>
-                        <h2>Description</h2>
-                        <p></p>
-                    </section>
-                    <section>
-                        <h2>Example Implementation &quot;Classical OO&quot;</h2>
-                        <p>
-                        	This implementation uses one instantiated <code>GolCell</code> Object for each of the cells in the playground.
-                        	So with each col/row, the impact on the browser gets heavier (and mostly more sluggish!).<br />
-							See timing info.
-                        </p>
-						<div>
-							<button id="create-oo">Create OO &quot;Game of Life&quot;</button> &nbsp;
-							<button id="destroy-oo">Destroy OO &quot;Game of Life&quot;</button>
-							<div class="playground-frame">
-								<div id="playground-1" class="gol-playground"></div>
-								<br clear="all" />
-							</div>
-						</div>
+            <div class="bg-green">footer left</div>
+            <div class="bg-green">footer center</div>
+            <div class="bg-green">footer right</div>
 
-						<h2>Example Implementation using &quot;Flyweight Pattern&quot;</h2>
-						<p></p>
-						<div>
-							<button id="create-fw">Create FW &quot;Game of Life&quot;</button> &nbsp;
-							<button id="destroy-fw">Destroy FW &quot;Game of Life&quot;</button>
-							<div class="playground-frame">
-								<div id="playground-2" class="gol-playground"></div>
-								<br clear="all" />
-							</div>
-						</div>
-                    </section>
-                    <footer>
-                        <p>Comparing <strong>flyweight pattern performance</strong> to <strong>classical oo architecture</strong>!</p>
-                    </footer>
-                </article>
+    </footer>
+    </div>
+    <script src="src/main.mjs" type="module"></script>
+</body>
 
-                <aside id="auto-accordeon">
-                    <h4>Youll find some timing specs here!!</h4>
-					<div class="specs" id="oo-specs">
-						<form onSubmit="alert('#');return false;">
-							<label>
-								cols: <input type="text" id="playground-cols" class="short" value="" /> -
-								rows: <input type="text" id="playground-rows" class="short" value="" />
-							</label>
-						</form>
-					</div>
-                    <div id="side-slider">
-                        <h3>OO Pattern timing</h3>
-							<p>Some info</p>
-							<br />
-                        <div class="specs" id="oo-specs">
-                        	<label>
-								<span class="label-subst">time to build playground</span>
-                        		<input type="text" id="oo-playground-build-time" class="timing" value="" />
-                        	</label>
-
-                        	<label><span class="label-subst">max step time</span>
-                        		<input type="text" id="oo-playground-max-step-time" class="timing" value="" />
-                        	</label>
-							<label><span class="label-subst">min step time</span>
-                        		<input type="text" id="oo-playground-min-step-time" class="timing" value="" />
-                        	</label>
-							<label><span class="label-subst">time to calculate each step</span>
-                        		<textarea id="oo-step-times" class="list"></textarea>
-                        	</label>
-                        </div>
-
-                        <h3>FW Pattern timing</h3>
-                        <p>Some info</p>
-                        <div class="specs" id="fw-specs">
-                        	<label>
-								<span class="label-subst">time to build playground</span>
-                        		<input type="text" id="fw-playground-build-time" class="timing" value="" />
-                        	</label>
-                        	<label>
-								<span class="label-subst">max step time</span>
-                        		<input type="text" id="fw-playground-max-step-time" class="timing" value="" />
-                        	</label>
-                        	<label>
-								<span class="label-subst">min step time</span>
-                        		<input type="text" id="fw-playground-min-step-time" class="timing" value="" />
-                        	</label>
-                        	<label>
-								<span class="label-subst">time to calculate each step</span>
-                        		<textarea id="step-times" class="list"></textarea>
-                        	</label>
-                        </div>
-                    </div>
-					<div class="specs">
-						<label><span class="label-subst">oo average step time</span>
-							<input type="text" id="oo-playground-avg-step-time" class="timing" value="" />
-						</label>
-						<label>
-							<span class="label-subst">fw average step time</span>
-							<input type="text" id="fw-playground-avg-step-time" class="timing" value="" />
-						</label>
-					</div>
-                </aside>
-
-            </div> <!-- #main -->
-        </div> <!-- #main-container -->
-
-        <div class="footer-container">
-            <footer class="wrapper">
-                <h3>footer</h3>
-            </footer>
-        </div>
-
-        <script src="js/vendor/jquery-1.9.1.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.js"><\/script>');</script>
-
-        <script type="text/javascript" src="js/measure.js"></script>
-        <script type="text/javascript" src="js/main.js"></script>
-
-	<script type="text/javascript">
-
-		var $ooColField = $('#playground-cols');
-		var $ooRowField = $('#playground-rows');
-
-		$ooColField.val(golConf.field.cols);
-		$ooRowField.val(golConf.field.rows);
-
-	    var ooField;
-
-	    $('#create-oo').click(function (e) {
-			var ooCols = parseInt($('#playground-cols').val(), 10);
-			var ooRows = parseInt($('#playground-rows').val(), 10);
-
-			ooField = new GolPlayground('#playground-1', ooCols, ooRows);
-			ooField.draw();
-			ooField.preset(golConf);
-		});
-
-		$('#destroy-oo').click(function (e) {
-			for (var r in ooField.matrix) {
-				var row = ooField.matrix[r];
-				for (var c in row) {
-					var cell = row[c];
-					cell.removeAllNeighbours();
-					cell.element.remove();
-					delete ooField.matrix[r][c];
-				}
-			}
-			var par = ooField.parent.detach();
-			ooField.parent.parent().empty();
-			ooField.parent.parent().append(par);
-			ooField.parent.css({ height: '80px', width: '100%'});
-			delete ooField;
-		});
-
-	    var fwField;
-		$('#create-fw').click(function (e) {
-            var fwCols = parseInt($('#playground-cols').val(), 10);
-            var fwRows = parseInt($('#playground-rows').val(), 10);
-
-            fwField = new FwPlayground('#playground-2', fwCols, fwRows);
-
-			fwField.draw();
-			fwField.preset(golConf);
-		});
-
-		$('#destroy-fw').click(function (e) {
-			fwField.matrix = [];
-			fwField.matrix2 = [];
-			fwField.matrix_ = [];
-			fwField.fwCell = null;
-			var playg = $('#playground-2');
-			playg.empty().css({height: 'auto', width: 'auto'});
-			playg.parent().find('input').remove();
-		});
-
-        var sslider = $('#side-slider');
-        var aside = $('#auto-accordeon');
-        sslider.slideUp();
-        aside.hover(function (e) {
-            /*if (e.target !== this) {
-                return;
-            }*/
-            e.stopImmediatePropagation();
-            e.preventDefault();
-            sslider.slideDown();
-        },
-        function (e) {
-            if (this != aside[0]) {
-                return;
-            }
-            e.stopImmediatePropagation();
-            e.preventDefault();
-            sslider.slideUp();
-        });
-	</script>
-    </body>
 </html>

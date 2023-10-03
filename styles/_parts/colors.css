@@ -1,0 +1,8 @@
+.white-on-dark {
+    background-color: var(--cl-violet);
+    color: var(--cl-white);
+}
+
+.bg-green {
+    background-color: var(--cl-green-50);
+}
