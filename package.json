@@ -4,8 +4,8 @@
   "description": "a js implementation of conways game of life",
   "main": "index.html",
   "scripts": {
-    "start": "npx live-server --port=3131 --open=index.html --ignorePattern='node_modules'",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "live-server --port=3131 --open=index.html --ignorePattern='node_modules'",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,10 @@
   },
   "homepage": "https://github.com/dominikschopper/gol#readme",
   "devDependencies": {
-    "live-server": "^1.2.2"
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "live-server": "^1.2.2",
+    "prettier": "^3.0.3"
   }
 }

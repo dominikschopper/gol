@@ -2,3 +2,4 @@ nbproject
 config
 .project
 node_modules/
+coverage
