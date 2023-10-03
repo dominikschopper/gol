@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conways Game of Life / redesign</title>
+    <style>
+        /*
+        Josh's Custom CSS Reset
+        https://www.joshwcomeau.com/css/custom-css-reset/
+        */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        * {
+            margin: 0;
+        }
+
+        body {
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        img,
+        picture,
+        video,
+        canvas,
+        svg {
+            display: block;
+            max-width: 100%;
+        }
+
+        input,
+        button,
+        textarea,
+        select {
+            font: inherit;
+        }
+
+        p,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            overflow-wrap: break-word;
+        }
+
+        #root,
+        #__next {
+            isolation: isolate;
+        }
+    </style>
+
+    <style>
+        :root {
+            --cl-green: rgb(69 177 82);
+            --cl-green-50: rgb(69 177 82 / .5);
+            --cl-red: rgb(210 79 86);
+            --cl-red-50: rgb(210 79 86 / .5);
+            --cl-white: rgb(250 245 245);
+            --cl-white-50: rgb(250 245 245 / .5);
+            --cl-grey: rgb(132 134 146);
+            --cl-grey-50: rgb(132 134 146 / .5);
+            --cl-violet: rgb(46 35 56);
+            --cl-violet-50: rgb(46 35 56 / .5);
+            --cl-black: rgb(39 22 39);
+            --cl-black-50: rgb(39 22 39 / .5);
+        }
+
+        html, body {
+            height: 100%;
+            background-color: var(--cl-black);
+            color: var(--cl-white);
+            box-sizing: border-box;
+        }
+
+        .white-on-dark {
+            background-color: var(--cl-violet);
+            color: var(--cl-white);
+        }
+
+        body {
+            margin: 3rem auto 1rem;
+        }
+        .layout {
+            display: flex;
+            height: calc(100% - 4rem);
+            flex-direction: column;
+            max-width: 960px;
+            margin: 0 auto;
+            flex-basis: 1;
+            background-color: var(--cl-white);
+            color: var(--cl-black);
+        }
+
+        .layout > * {
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+
+        .main-header {
+            padding-block: 1rem;
+            position: sticky;
+        }
+
+        .main {
+            padding-block: .5rem;
+            flex-grow: 1;
+        }
+
+        .main-footer {
+            display: flex;
+            flex-basis: 1;
+            width: 100%;
+        }
+        .main-footer > * {
+            flex-grow: 1;
+            padding: 1rem 3rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layout">
+    <header class="main-header white-on-dark">
+        <h1>Conways Game of Life</h1>
+        <p>.. an implementation in pure JS</p>
+    </header>
+    <main class="main" >
+        <h2>Main Content</h2>
+
+    </main>
+    <footer class="main-footer white-on-dark">
+
+            <div>footer left</div>
+            <div>footer center</div>
+            <div>footer right</div>
+
+    </footer>
+    </div>
+</body>
+
+</html>
