@@ -1,0 +1,29 @@
+{
+  "name": "gol",
+  "version": "0.2.0",
+  "description": "a js implementation of conways game of life",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx live-server --port=3131 --open=index.html --ignorePattern='node_modules'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/dominikschopper/gol.git"
+  },
+  "keywords": [
+    "conway",
+    "game",
+    "of",
+    "life"
+  ],
+  "author": "dev@dschopper.de",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dominikschopper/gol/issues"
+  },
+  "homepage": "https://github.com/dominikschopper/gol#readme",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

@@ -175,8 +175,8 @@ var GolCell = (function() {
 	 */
 	GolCell.prototype.removeNeighbour = function(n) {
 
-		var neighbours = [],
-			i = 0;
+		let neighbours = [];
+		let i = 0;
 
 		for (i in this.neighbours) {
 			if (this.neighbours.hasOwnProperty(i) && this.neighbours[i] !== n) {
@@ -204,9 +204,9 @@ var GolCell = (function() {
 	 */
 	GolCell.prototype.getActiveNeighbourCount = function() {
 
-	var count = 0;
+	let count = 0;
 
-	for (i in this.neighbours) {
+	for (let i in this.neighbours) {
 		if (this.neighbours.hasOwnProperty(i) && this.neighbours[i].getState()) {
 		count += 1;
 		}
