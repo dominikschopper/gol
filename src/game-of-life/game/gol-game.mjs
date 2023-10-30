@@ -53,7 +53,6 @@ export class GolGame {
 
         // activate it
         this.forEveryCell((cell) => cell.activate());
-
         // call callback for every cell
         this.#nextStateCallbacks.forEach(cb => {
             this.forEveryCell(cb);
@@ -116,22 +115,22 @@ export class GolGame {
             { row: 1, col: 1 },
         ];
 
-        for (let r = 0; r < this.#rows; r += 1) {
-            for (let c = 0; c < this.#cols; c += 1) {
-                const cell = this.#board[r][c];
-                for (let nextNeigh of neighConf) {
-                    let neighRow = r + nextNeigh.row;
+        this.#board.forEach((row, rowId) => {
+            row.forEach((cell, colId) => {
+                neighConf.forEach(nc => {
+                    let neighRow = rowId + nc.row;
+                    let neighCol = colId + nc.col;
                     let neigh;
                     try {
                         neigh = this.#board[neighRow][neighCol];
                     } catch(e) {
-                        break;
+                        return;
                     }
                     if (neigh) {
                         cell.addNeighbour(neigh);
                     }
-                }
-            }
-        }
+                });
+            });
+        });
     }
 }
