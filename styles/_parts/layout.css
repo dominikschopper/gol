@@ -14,7 +14,7 @@ body {
     display: flex;
     height: calc(100% - 4rem);
     flex-direction: column;
-    max-width: 960px;
+    width: fit-content;
     margin: 0 auto;
     flex-basis: 1;
     background-color: var(--cl-white);
