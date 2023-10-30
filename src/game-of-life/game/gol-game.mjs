@@ -39,6 +39,7 @@ export class GolGame {
      *
      * @param {number} row
      * @param {number} col
+     * @returns {GolCell}
      */
     cell(row, col) {
         if (this.#rowOutOfBounds(row) || this.#colOutOfBounds(col)) {

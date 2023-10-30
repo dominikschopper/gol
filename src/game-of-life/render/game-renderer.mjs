@@ -51,14 +51,14 @@ export class GameRenderer {
     #initialize() {
         let currentRowId = -1;
         let tr;
-        this.#game.forEveryCell((_, pos) => {
+        this.#game.forEveryCell((cell, pos) => {
             if (pos.row !== currentRowId) {
                 tr = document.createElement('tr');
                 this.#element.appendChild(tr);
                 currentRowId = pos.row;
                 this.#cells.push([]);
             }
-            let td = createCellTd(pos);
+            let td = createCellTd(pos, cell.state);
             tr.appendChild(td);
             this.#cells[pos.row][pos.col] = td
         });
@@ -83,13 +83,15 @@ export class GameRenderer {
 
 /**
  * @param {{col: number, row: number}} pos
+ * @param {boolean} state
  */
-const createCellTd = (pos) => {
+const createCellTd = (pos, state) => {
     const td = document.createElement('td');
     td.classList.add('game-cell')
     const input = document.createElement('input');
     input.type  = 'checkbox';
     input.value = '1';
+    input.checked = state == true ? true : false;
     input.classList.add("game-cell__value");
     input.id = cellValueId(pos);
     input.dataset.row = pos.row;

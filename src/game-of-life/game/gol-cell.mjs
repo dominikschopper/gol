@@ -44,8 +44,8 @@ export class GolCell {
      * @method
      * @param {boolean} life
      */
-    setState(sate) {
-        this.#nextState = sate;
+    setState(state) {
+        this.#nextState = state;
     }
 
     /**
