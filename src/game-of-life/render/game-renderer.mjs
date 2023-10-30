@@ -16,7 +16,6 @@ export class GameRenderer {
      */
     constructor(game, selector) {
         this.#element = document.querySelector(selector);
-        console.log('/#element', this.#element);
         this.#game = game;
         if (!this.#element) {
             const errormessage = `Error: I can't work lite that! Element with selector "${selector}" does not exist.`;
@@ -33,9 +32,7 @@ export class GameRenderer {
          * @param {object} pos an object {row: rowId, col: colId}
          */
         const gameStatusCallback = (cell, pos) => {
-            console.log('%o/%o: cell.state>%o', pos.row, pos.col, cell.state);
             if (cell.state === true) {
-                console.log("gameStatusCallback for pos:%o", pos);
                 this.#cells[pos.row][pos.col].querySelector('input').checked = true;
                 return;
             }
@@ -76,13 +73,10 @@ export class GameRenderer {
                 row: htmlCell.dataset.row,
                 col: htmlCell.dataset.col
             };
-            console.log("clicked pos(%o)", pos, htmlCell.dataset);
             const cell = this.#game.cell(pos.row, pos.col);
-            console.log(' -> set state to:%o', !cell.state);
             // clicks must set state and activate it directly
             cell.setState(!cell.state);
             cell.activate();
-            console.log(" -> new state:%o", cell.state);
         });
     }
 }

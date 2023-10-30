@@ -74,7 +74,7 @@ describe("the GolGame class", () => {
 
     describe("the forEveryCell() method", () => {
         const cbMock = jest.fn((cell, pos) => {
-            console.log('>>>>> cell:%o / pos:%o', cell, pos);
+            return;
         });
 
         it('should call the callback for every cell', () => {

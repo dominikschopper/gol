@@ -9,7 +9,6 @@ export class GolRules {
      * @returns boolean
      */
     static nextState(cellState, livingNeighboursCount) {
-        console.log("just an interface", cellState, livingNeighboursCount);
         return false;
     }
 }

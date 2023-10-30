@@ -11,7 +11,6 @@ function startGame() {
     window.renderer = renderer;
     document.querySelector(nextSelector)
         .addEventListener('click', (ev) => {
-            console.log('#####CLICK NEXT#####');
             ev.preventDefault();
             game.nextState();
         });
