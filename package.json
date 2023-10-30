@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "start": "live-server --port=3131 --open=index.html --ignorePattern='node_modules'",
-    "test": "jest"
+    "test": "jest -c ./jest.config.js"
   },
   "repository": {
     "type": "git",
@@ -13,9 +13,9 @@
   },
   "keywords": [
     "conway",
-    "game",
-    "of",
-    "life"
+    "game of life",
+    "javascript",
+    "fun"
   ],
   "author": "dev@dschopper.de",
   "license": "MIT",
