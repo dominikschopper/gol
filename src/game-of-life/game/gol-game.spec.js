@@ -70,5 +70,32 @@ describe("the GolGame class", () => {
             expect(game7x4.cell(4, 2).state).toBe(true);
             expect(game7x4.cell(6, 3).state).toBe(true);
         });
-    })
+    });
+
+    describe("the forEveryCell() method", () => {
+        const cbMock = jest.fn((cell, pos) => {
+            console.log('>>>>> cell:%o / pos:%o', cell, pos);
+        });
+
+        it('should call the callback for every cell', () => {
+            game3x3.forEveryCell(cbMock);
+            expect(cbMock).toHaveBeenCalledTimes(9);
+        });
+
+    });
+
+    describe("the addNextStateCallback() method", () => {
+        it("should call the given method for once each cell", () => {
+            const mockCb3x3 = jest.fn(a => a);
+            const mockCb7x4 = jest.fn(a => a);
+            game3x3.addNextStateCallback(mockCb3x3);
+            game3x3.nextState();
+
+            expect(mockCb3x3).toHaveBeenCalledTimes(3 * 3);
+
+            game7x4.addNextStateCallback(mockCb7x4);
+            game7x4.nextState();
+            expect(mockCb7x4).toHaveBeenCalledTimes(7 * 4);
+        });
+    });
 });

@@ -10,7 +10,12 @@ export class GolGame {
     /**
      * @type Array<Array<GolCell>>
      */
-    #board = [ ];
+    #board = [];
+
+    /**
+     * @property {Array<Function>}
+     */
+    #nextStateCallbacks = [];
 
     /** @property {GolRules} */
     rules;
@@ -36,7 +41,7 @@ export class GolGame {
      * @param {number} col
      */
     cell(row, col) {
-        if ( this.#rowOutOfBounds(row) || this.#colOutOfBounds(col)) {
+        if (this.#rowOutOfBounds(row) || this.#colOutOfBounds(col)) {
             throw new Error(`Error! row:${row} or col:${col} does not exist`);
         }
         return this.#board[row][col];
@@ -44,13 +49,41 @@ export class GolGame {
 
     nextState() {
         // calculate next state
-        this.#board.forEach((row) => {
-            row.forEach((cell) => cell.nextState());
-        });
+        this.forEveryCell((cell) => cell.nextState());
+
         // activate it
-        this.#board.forEach((row) => {
-            row.forEach((cell) => cell.activate());
+        this.forEveryCell((cell) => cell.activate());
+
+        // call callback for every cell
+        this.#nextStateCallbacks.forEach(cb => {
+            this.forEveryCell(cb);
         });
+    }
+
+    /**
+     * calls the given callback function for every cell
+     * and provides it with two arguments
+     *
+     * @example cb(cell, {row: rowId, cell: cellId})
+     * @param {*} cb a callback function
+     */
+    forEveryCell(cb) {
+        this.#board.forEach((row, rowId) => {
+            row.forEach((cell, colId) => {
+                cb(cell, {"row": rowId, "col": colId});
+            });
+        });
+    }
+
+    /**
+     * calls the given callback function for every cell
+     * on each stateChange and provides it with two arguments
+     *
+     * @example cb(cell, {row: rowId, cell: cellId})
+     * @param {Function} cb the callback function
+     */
+    addNextStateCallback(cb) {
+        this.#nextStateCallbacks.push(cb);
     }
 
     #rowOutOfBounds(row) {
@@ -64,7 +97,7 @@ export class GolGame {
     #createCells() {
         for (let r = 0; r < this.#rows; r += 1) {
             const row = [];
-            this.#board.push(row)
+            this.#board.push(row);
             for (let c = 0; c < this.#cols; c += 1) {
                 row.push(new GolCell(this));
             }
@@ -74,22 +107,29 @@ export class GolGame {
     #linkNeighbours() {
         const neighConf = [
             { row: -1, col: -1 },
-            { row: -1, col:  0 },
-            { row: -1, col:  1 },
-            { row:  0, col: -1 },
-            { row:  0, col:  1 },
-            { row:  1, col: -1 },
-            { row:  1, col:  0 },
-            { row:  1, col:  1 },
+            { row: -1, col: 0 },
+            { row: -1, col: 1 },
+            { row: 0, col: -1 },
+            { row: 0, col: 1 },
+            { row: 1, col: -1 },
+            { row: 1, col: 0 },
+            { row: 1, col: 1 },
         ];
-        for (let r = 0; r < this.#rows.length; r += 1) {
-            for (let c = 0; c < this.#rows[r].length; c += 1) {
+
+        for (let r = 0; r < this.#rows; r += 1) {
+            for (let c = 0; c < this.#cols; c += 1) {
                 const cell = this.#board[r][c];
-                for (nextNeigh of neighConf) {
-                    const neighRow = r + nextNeigh.row;
-                    const neighCol = c + nextNeigh.col;
-                    const neigh = this.#board[neighRow][neighCol];
-                    cell.addNeighbour(neigh);
+                for (let nextNeigh of neighConf) {
+                    let neighRow = r + nextNeigh.row;
+                    let neigh;
+                    try {
+                        neigh = this.#board[neighRow][neighCol];
+                    } catch(e) {
+                        break;
+                    }
+                    if (neigh) {
+                        cell.addNeighbour(neigh);
+                    }
                 }
             }
         }
