@@ -1,5 +1,3 @@
-import {$, $$} from '../dom-utils/short-selectors.mjs';
-
 export class GameRenderer {
 
     /** @property {GolCell} */
