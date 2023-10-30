@@ -15,7 +15,7 @@ export class GameRenderer {
      * @param {string} selector the selector of the html element holding the game
      */
     constructor(game, selector) {
-        this.#element = $(selector);
+        this.#element = document.querySelector(selector);
         console.log('/#element', this.#element);
         this.#game = game;
         if (!this.#element) {
