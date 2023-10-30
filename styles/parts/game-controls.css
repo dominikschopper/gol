@@ -1,0 +1,35 @@
+.flex-controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+    align-content: center;
+}
+
+.game-btn {
+    appearance: none;
+    background-color: transparent;
+    font-family: inherit;
+    border: 2px dotted var(--cl-black);
+    border-radius: 0.5rem;;
+    padding: 0.5rem 1rem;
+    transition: 250ms;
+    box-shadow: 0.5rem 0.5rem 0.25rem var(--cl-grey);
+}
+
+.game-btn:hover {
+    background-color: var(--cl-green);
+    border: 2px solid var(--cl-black);
+}
+
+.game-btn:active {
+    box-shadow: 0.125rem 0.125rem 0.25rem var(--cl-red);
+}
+
+.game-btn.running {
+    background-color: var(--cl-grey);
+    box-shadow: 0.125rem 0.125rem 0.25rem var(--cl-grey);
+}
+
+.end-of-line {
+    margin-left: auto;
+}

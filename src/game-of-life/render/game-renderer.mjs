@@ -49,6 +49,7 @@ export class GameRenderer {
 
     /* @TODO: implement as WeakMap */
     #initialize() {
+        this.#emptyRootElement();
         let currentRowId = -1;
         let tr;
         this.#game.forEveryCell((cell, pos) => {
@@ -64,6 +65,12 @@ export class GameRenderer {
         });
         this.#setupCellClick();
         this.#initUpdate();
+    }
+
+    #emptyRootElement() {
+        while (this.#element.firstChild) {
+            this.#element.removeChild(this.#element.firstChild);
+        }
     }
 
     #setupCellClick() {

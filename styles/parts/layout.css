@@ -12,7 +12,8 @@ body {
 
 .layout {
     display: flex;
-    height: calc(100% - 4rem);
+    height: auto;
+    min-height: calc(100% - 4rem);
     flex-direction: column;
     width: fit-content;
     margin: 0 auto;
