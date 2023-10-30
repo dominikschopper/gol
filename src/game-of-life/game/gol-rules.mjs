@@ -1,3 +1,6 @@
+/**
+ * @interface
+ */
 export class GolRules {
     /**
      * returns the state of a cell depending on its neighbours
