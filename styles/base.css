@@ -1,5 +1,5 @@
-@import url("./_parts/reset.css");
-@import url("./_parts/color-vars.css");
-@import url("./_parts/layout.css");
-@import url("./_parts/colors.css");
-@import url("./_parts/gol.css");
+@import "./_parts/reset.css";
+@import "./_parts/color-vars.css";
+@import "./_parts/layout.css";
+@import "./_parts/colors.css";
+@import "./_parts/gol.css";
