@@ -24,6 +24,7 @@ function startGame() {
     const playSelector = "#play";
     const pauseSelector = "#pause";
     const resetSelector = "#reset";
+    const emptySelector = "#empty";
 
     const rowCount = 45;
     const colCount = 55;
@@ -59,6 +60,14 @@ function startGame() {
         playBtn.classList.remove("running");
     }
 
+    function emptyBoard() {
+        game.forEveryCell((cell) => {
+            cell.setState(false);
+            cell.activate();
+        });
+        game.nextState();
+    }
+
     document.querySelector(pauseSelector).addEventListener("click", (ev) => {
         ev.preventDefault();
         stopPlaying()
@@ -69,6 +78,11 @@ function startGame() {
         stopPlaying();
         game = initGame(rowCount, colCount);
         renderer = new GameRenderer(game, rootSelector);
+    });
+
+    document.querySelector(emptySelector).addEventListener("click", (ev) => {
+        ev.preventDefault();
+        emptyBoard();
     });
 }
 

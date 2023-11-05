@@ -64,8 +64,8 @@ export class GolGame {
      * calls the given callback function for every cell
      * and provides it with two arguments
      *
-     * @example cb(cell, {row: rowId, cell: cellId})
-     * @param {*} cb a callback function
+     * @example cb(cell, {row: rowId, col: colId})
+     * @param {({GameCell}, {row: number, col: number}) => void} cb a callback function
      */
     forEveryCell(cb) {
         this.#board.forEach((row, rowId) => {
