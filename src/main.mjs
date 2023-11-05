@@ -40,10 +40,12 @@ function startGame() {
     const playBtn = document.querySelector(playSelector);
     playBtn.addEventListener("click", (ev) => {
         ev.preventDefault();
-        intervalId = window.setInterval(() => {
-            game.nextState();
-        }, 500);
-        playBtn.classList.add('running');
+        if (intervalId === null) {
+            intervalId = window.setInterval(() => {
+                game.nextState();
+            }, 500);
+            playBtn.classList.add('running');
+        }
     });
 
     /**
